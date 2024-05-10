@@ -1,0 +1,57 @@
+/* Search.module.scss */
+
+.search-box {
+  position: relative;
+  width: 90%;
+  border-radius: 5px;
+  background-color: white;
+  form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+  input{
+    width: 100%;
+    padding: 10px 20px;
+    // border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+
+  }
+  .button-search{
+    margin-left: 12px;
+    padding: 0 10px;
+    font-size: 2rem;
+    background: transparent;
+  }
+  .button-search:hover{
+    color: #03a3ff;
+  }
+  .button-clear {
+    position: absolute;
+    padding: 12px;
+    right: 50px;
+    top: 50%;
+    font-size: 1.4rem;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+  .button-clear:hover{
+    color: var(--primary-color);
+  }
+}
+
+.button-clear .fa-times-circle 
+{
+  color: #888;
+}
+
+.button-clear:hover .fa-times-circle {
+  color: #f00; /* Màu đỏ khi hover */
+}

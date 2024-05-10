@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(22, 24, 35, 0.06);
+  }
+  &:last-child {
+    padding-bottom: 10px;
+  }
+}
+.Imgitem {
+  border-radius: 6px;
+  object-fit: cover;
+}
+.info {
+  flex: 1;
+  margin-left: 12px;
+}
+.name {
+  font-size: 0.8rem;
+  font-weight: 200;
+}

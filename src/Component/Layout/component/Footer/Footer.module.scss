@@ -1,0 +1,80 @@
+.footer {
+    width: 100%;
+    min-height: 80px;
+    background-color: black;
+
+    .content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        height: 100%;
+        padding: 30px;
+    }
+    &__list {
+    }
+    &__item {
+        display: block;
+        padding: 8px;
+        color: white;
+        font-size: 1.2rem;
+        &-link {
+            color: white;
+            text-decoration: none;
+        }
+        &-link-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        &-link-app {
+            display: inline-block;
+            width: 40px;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: #353838;
+            &.fb:hover {
+                background-color: blue;
+            }
+            &.tiktok:hover {
+                background-color: #000;
+            }
+            &.insta:hover {
+                background-color: rgb(255, 0, 153);
+            }
+        }
+        &-link-app + &-link-app {
+            margin-left: 8px;
+        }
+        &-link-install {
+            .link-app-install {
+                margin: 0 auto;
+                display: block;
+                width: 140px;
+                max-width: 200px;
+                padding: 4px 6px;
+                border: 1px solid white;
+                border-radius: 5px;
+                &--btn {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    // icon
+                    &_icon {
+                        font-size: 2rem;
+                        margin-right: 8px;
+                    }
+                }
+                &--word-small {
+                    font-size: 0.7rem;
+                }
+                &--word-big {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+        &-link-install + &-link-install {
+            margin-top: 8px;
+        }
+    }
+}
