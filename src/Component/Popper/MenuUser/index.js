@@ -35,7 +35,7 @@ function MenuUser({ isShowMenuUser, onClose }) {
             <div className={cx("menu-user")}>
                 <ul>
                     <li className={cx("menu-item")}>
-                        <Link to="/profile">Profile</Link>
+                        <Link to="/user/profile">Profile</Link>
                     </li>
                     <li className={cx("menu-item")}>Settings</li>
                     <li className={cx("menu-item")} onClick={handleLogout}>

@@ -9,16 +9,17 @@ import Profile from "../../src/pages/Profile";
 import Paypage from "../../src/pages/Paypage";
 import PageListUser from "../pages/Admin/PageListUser";
 import LoginPage from "../pages/PageLogin";
+import UserProfilePage from "../pages/User/profile";
 //Pubic Route
 const publicRoute = [
     { path: "/", Component: Home },
     // { path: '/product', Component: Product },
     { path: "/profile", Component: Profile },
-    // { path: '/upload', Component: UploadProduct, layout: UploadLayout },
     // { path: "/page403", Component: Page403, layout: Page403 },
     { path: "/paypage", Component: Paypage },
     { path: "/admin/userlist", Component: PageListUser },
     { path: "/login", Component: LoginPage },
+    { path: "/user/profile", Component: UserProfilePage },
 ];
 
 const privateRoute = [];

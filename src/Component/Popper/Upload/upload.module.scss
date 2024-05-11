@@ -8,7 +8,7 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: 400px;
+  width: 460px;
   z-index: 10;
 }
 .modal_overlay {
@@ -54,6 +54,12 @@
 .upload__form-group {
   margin-bottom: 15px;
   //css thẻ input file
+  label{
+    display: block;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
 }
 
 .upload__form-label {
@@ -86,9 +92,11 @@
 // CSS input text file
 /* Định kiểu cho input type file */
 input[type="file"] {
+  font-size: 1rem;
   /* Đặt kích thước cho input */
   width: 100%;
-  padding: 10px;
+  padding: 16px;
+  margin-bottom: inherit;
 }
 
 /* Định kiểu cho nút browse */
@@ -105,7 +113,7 @@ input[type="file"]::file-selector-button {
 
 /* Định kiểu cho mũi tên chỉ xuất hiện khi hover */
 input[type="file"]::file-selector-button:hover {
-  background-color: #0056b3;
+  background-color: #0059ff;
 }
 
 /* Định kiểu cho mũi tên của input type file */

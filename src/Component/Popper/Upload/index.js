@@ -28,6 +28,8 @@ function Upload({ isShowUpLoad, onClose }) {
         formData.append('file', file);
         formData.append('userId', user.user._id);
         formData.append('username', user.user.username);
+        formData.append('type', file.type.split('/')[0]);
+
         try {
             const response = await fetch('http://localhost:5000/upload', {
                 method: 'POST',
