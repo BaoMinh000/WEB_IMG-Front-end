@@ -22,6 +22,7 @@
     z-index: 11;
 }
 .menu-item {
+    height: 50px;
     padding: 8px 16px;
     display: flex;
     align-items: center;
@@ -31,4 +32,7 @@
     &:hover {
         background: #d2d2d2;
     }
+}
+.menu-item+.menu-item{
+    
 }

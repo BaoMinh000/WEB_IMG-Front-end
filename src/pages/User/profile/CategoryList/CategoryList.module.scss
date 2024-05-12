@@ -1,28 +1,99 @@
-ul {
-    list-style-type: none;
-    padding: 12px;
+.category-list-container{
+    position: relative;
+    height: 100%;
+   &::before{
+    content: ''; /* Đặt nội dung rỗng */
+    position: absolute; /* Đặt vị trí tuyệt đối */
+    height: 100%;
+    top: 0; /* Đặt đỉnh của đường thẳng ở đỉnh của phần tử cha */
+    bottom: 0; /* Đặt đáy của đường thẳng ở đáy của phần tử cha */
+    right: 0; /* Đặt đường thẳng ở bên phải */
+    border-right: 1px solid rgba(0, 0, 0, 0.5); /* Đặt đường thẳng với kiểu đường và màu sắc tùy chọn */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Đổ bóng cho đường thẳng */
+   } 
+}
+.user-info {
+    margin: 0 0 40px 0;
+    padding-top: 20px;
+    font-weight: bold;}
+
+.user-name{
+    margin-top: 12px;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #333;
+}
+.user-avatar{
+    position: relative;
+}
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover; /* Hiển thị ảnh đúng tỉ lệ */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Đổ bóng cho ảnh */
+}
+/* Hiệu ứng hover trên logo */
+.avatar:hover {
+    transform: scale(1.1); /* Phóng to logo khi hover */
+    transition: transform 0.3s ease-in-out; /* Hiệu ứng chuyển đổi mượt mà */
+}
+
+//Nút edit IMG
+.edit-button {
+    position: absolute;
+    bottom: 0;
+    right: 30%;
+    font-size: 1rem;
+    color: white;
+    background-color: rgb(31, 105, 253);
+    border: none;
+    border-radius: 50%;
+    padding: 6px;
     margin: 0;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Thêm shadow */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Hiệu ứng transition */
+}
+
+.edit-button:hover {
+    background-color: rgb(41, 125, 253); /* Thay đổi màu khi hover */
+    transform: scale(1.1); /* Phóng to nút khi hover */
+}
+
+
+.edit-button i {
+    color: white; /* Màu icon trắng */
 }
   
-li {
+
+// CategoryList
+.CategoryList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.CategoryList li {
     margin-bottom: 10px;
 }
 
-a {
+.CategoryList a {
     text-decoration: none;
     color: #333;
     display: block;
-    padding: 10px;
+    padding: 12px;
     font-size: 1.2rem;
-    border-radius: 5px;
     transition: background-color 0.3s ease-in-out;
 }
-a:hover {
+
+.CategoryList a:hover {
     background-color: #f1f1f1;
 }
-a.selected {
-    background-color: #aeaeae;
-    
+
+.CategoryList a.selected {
+    background-color: #007bff;
+    color: #fff; /* Đổi màu chữ khi mục được chọn */
 }
 
-  

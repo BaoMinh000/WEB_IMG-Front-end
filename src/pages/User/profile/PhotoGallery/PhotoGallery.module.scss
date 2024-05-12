@@ -1,0 +1,101 @@
+.title-page {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+.tabs {
+    display: flex;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    border-bottom: 2px solid #007bff; /* Màu sắc cho border khi tab được chọn */
+}
+
+.tab:hover {
+    background-color: #f0f0f0; /* Màu nền khi hover */
+}
+
+.tab + .tab {
+    margin-left: 10px; /* Khoảng cách giữa các tab */
+}
+
+.tab-content {
+    border: 1px solid #ccc; /* Border cho phần nội dung */
+    padding: 20px;
+    margin-top: 10px;
+}
+
+//tab-content
+.content {
+    height: 460px; /* Đặt chiều cao cho nội dung */
+    overflow-y: auto; /* Thêm thanh cuộn theo chiều dọc khi cần */
+    margin: 20px 0; /* Khoảng cách 20px trên và dưới */
+    border: 1px solid #ccc; /* Border cho phần nội dung */
+    border-radius: 5px; /* Bo góc của phần nội dung */
+    padding: 10px; /* Khoảng cách bên trong */
+}
+
+/* CSS cho thanh cuộn */
+.content::-webkit-scrollbar {
+    width: 8px; /* Độ rộng của thanh cuộn */
+}
+
+.content::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Màu nền của thanh cuộn */
+    border-radius: 5px; /* Bo góc của thanh cuộn */
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: #888; /* Màu nền của nút cuộn */
+    border-radius: 5px; /* Bo góc của nút cuộn */
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Màu nền của nút cuộn khi di chuột vào */
+}
+
+.photo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.photo {
+    width: calc(12.5% - 8px); /* Đặt kích thước cho ô ảnh và cách nhau */
+    margin-right: 8px;
+    margin-bottom: 8px;
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden; /* Ẩn phần nội dung vượt ra ngoài */
+    box-sizing: border-box; /* Tính cả border vào kích thước */
+}
+
+.photo img {
+    width: 100%;
+    border-radius: 5px;
+    transition: all 0.3s ease-in;
+}
+
+.photo:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.photo .delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 2px 5px;
+    border-radius: 0 0 0 5px;
+    cursor: pointer;
+}

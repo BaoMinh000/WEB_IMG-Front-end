@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Nếu bạn đang sử dụng React Router
 import style from './CategoryList.module.scss';
 import classNames from 'classnames/bind';
+import IMG from '../../../../Asset/Img/Logo/logo512.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(style);
 
@@ -15,15 +18,33 @@ const CategoryList = ({ onSelectCategory }) => {
   };
 
   return (
-    <div>
-      <ul>
+    <div className={cx('category-list-container')}>
+      <div className={cx('user-info')}>
+        <div className={cx('user-avatar')}>
+          <img src={IMG} alt="Avatar" className={cx('avatar')}/>
+          <button className={cx('edit-button')}>
+            <FontAwesomeIcon icon={faPen} />
+          </button>
+        </div>
+        <h3 className={cx('user-name')}>Bao Minh</h3>
+      </div>
+      <ul className={cx('CategoryList')}>
         <li>
           <Link
             to="#"
             onClick={() => handleSelectCategory("profile")}
             className={cx({ selected: selectedCategory === "profile" })}
           >
-            Profile
+            Account
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="#"
+            onClick={() => handleSelectCategory("password")}
+            className={cx({ selected: selectedCategory === "password" })}
+          >
+            Password
           </Link>
         </li>
         <li>
