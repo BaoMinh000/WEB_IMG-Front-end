@@ -49,7 +49,15 @@ function Header() {
         setisOpen(true);
         setOnLogin(true);
     };
-
+    const handleUploadclick = () => {
+        if (user === null) {
+            // If user is null, open the login modal
+            setisOpen(true);
+        } else {
+            // If user is not null, open the upload modal
+            setShowUpLoad(true);
+        }
+    }
     //Hàm tự động đăng nhập lạis
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -167,9 +175,7 @@ function Header() {
                                                 "navigation__link",
                                                 "navigation__link--btn-outline"
                                             )}
-                                            onClick={() => {
-                                                setShowUpLoad(true);
-                                            }}
+                                            onClick={handleUploadclick}
                                         >
                                             <FontAwesomeIcon
                                                 icon={faUpload}
@@ -279,6 +285,7 @@ function Header() {
             <Upload
                 isShowUpLoad={ShowUpLoad}
                 onClose={() => setShowUpLoad(false)}
+                user={user}
             />
         </header>
     );

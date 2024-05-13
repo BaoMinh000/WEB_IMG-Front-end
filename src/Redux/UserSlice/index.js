@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getImage } from "../ApiRequest";
 
 const userSlice = createSlice({
     name: "user",
@@ -52,6 +53,19 @@ const userSlice = createSlice({
             state.error = true;
         },
 
+        getImageStart: (state) => {
+            state.isFetching = true;
+        },
+        getImageSuccess: (state, action) => {
+            state.isFetching = false;
+            state.images = action.payload;
+            state.error = false;
+        },
+        getImageFailure: (state) => {
+            state.isFetching = false;
+            state.error = true;
+        },
+
     },
 });
 
@@ -65,6 +79,9 @@ export const {
     uploadFileStart,
     uploadFileSuccess,
     uploadFileFailure,
+    getImageStart,
+    getImageSuccess,
+    getImageFailure,
 } = userSlice.actions;
 
 export default userSlice.reducer;

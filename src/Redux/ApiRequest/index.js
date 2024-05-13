@@ -15,7 +15,8 @@ import {
     DeleteUserStart,
     DeleteUserSuccess,
     DeleteUserFailure,
-    uploadFileStart, uploadFileSuccess, uploadFileFailure
+    uploadFileStart, uploadFileSuccess, uploadFileFailure,
+    getImageStart, getImageSuccess, getImageFailure
 } from "../UserSlice";
 
 
@@ -139,5 +140,25 @@ export const uploadFile = async (file, dispatch, access_token, axiosJWT) => {
         dispatch(uploadFileFailure());
     }
 };
-
+export const getImage = async (access_token, dispatch, axiosJWT) => {
+    dispatch(getImageStart());
+    try {
+        const res = await axiosJWT.get("http://localhost:5000/user/images", {
+            headers: {
+                token: `${access_token}`,
+            },
+        });
+        if (res.status === 200) {
+            // Xử lý dữ liệu phản hồi ở đây nếu cần
+            dispatch(getImageSuccess(res.data)); // Assuming res.data contains user data.
+        } else {
+            // Xử lý trường hợp phản hồi không thành công (vd: mã trạng thái không phải 200)
+            dispatch(getImageFailure());
+        }
+    } catch (err) {
+        // Xử lý lỗi (vd: log lỗi hoặc hiển thị thông báo lỗi cho người dùng)
+        console.error("Get image failed:", err);
+        dispatch(getImageFailure());
+    }
+}
 

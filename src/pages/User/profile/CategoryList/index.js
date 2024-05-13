@@ -12,7 +12,6 @@ const CategoryList = ({ onSelectCategory }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleSelectCategory = (category) => {
-    console.log(onSelectCategory);
     onSelectCategory(category);
     setSelectedCategory(category);
   };

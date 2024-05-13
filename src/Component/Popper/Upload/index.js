@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./upload.module.scss";
-import { useSelector } from "react-redux";
-
+import axios from "axios";
 const cx = classNames.bind(styles);
 
-function Upload({ isShowUpLoad, onClose }) {
+function Upload({ isShowUpLoad, onClose, user }) {
+    const [file, setFile] = useState('null');
+    const [images, setImages] = useState([]);//upload ảnh từ backend
 
-    const user = useSelector((state) => state.auth.login.currentUser);
-
-    const [file, setFile] = useState(null);
+    if (!isShowUpLoad) return null;
+    
+    const handleclose = () => {
+        onClose();
+        setFile(null);
+    };
 
     const handleUpload = async (event) => {
         setFile(event.target.files[0]);
@@ -37,16 +41,15 @@ function Upload({ isShowUpLoad, onClose }) {
             });
 
             const data = await response.json();
-            console.log(data.message);
+            console.log("data từ FE",data.message);
         } catch (error) {
             console.error('Error uploading image:', error);
         }
     }
-    if (!isShowUpLoad) return null;
 
     return (
         <div>
-            <div className={cx("modal_overlay")} onClick={onClose}></div>
+            <div className={cx("modal_overlay")} onClick={handleclose}></div>
 
             <div className={cx("upload")}>
                 <div className={cx("upload__content")}>

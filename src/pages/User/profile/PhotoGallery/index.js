@@ -1,81 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './PhotoGallery.module.scss';
 import classNames from 'classnames/bind';
+import axios from 'axios';
 
 import IMG from '../../../../Asset/Img/Logo/logo512.png';
 const cx = classNames.bind(style);
 
 const PhotoGallery = () => {
   const [activeTab, setActiveTab] = useState('photos');
-  const [images, setImages] = useState([
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    { url: IMG },
-    // Thêm các đường dẫn ảnh khác vào đây
-  ]);
+  const [images, setImages] = useState([]);
+
+  // useEffect(() => {
+  //   // Fetch images from the backend API when the component mounts
+  //   axios.get('http://localhost:5000/user/images')
+  //     .then(console.log("get images success"))
+  //     .catch(error => {
+  //       console.error('Error fetching images:', error);
+  //     });
+  // }, []);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
-  };
+  };  
 
   return (
-    <div>
+    <div style={{width:"100%"}}>
       <div style={{ display: 'flex' }}>
         <h2 className={cx('title-page')} style={{ width: '100%', alignItems: 'center' }}>Photo Gallery</h2>
       </div>
@@ -94,7 +43,7 @@ const PhotoGallery = () => {
               <div className={cx('photo-grid')}>
                 {images.map((image, index) => (
                   <div key={index} className={cx('photo')}>
-                    <img src={image.url} alt={`Photo ${index}`} />
+                    <img src={image.path} alt={`Photo ${index}`}/>
                   </div>
                 ))}
               </div>
@@ -103,7 +52,7 @@ const PhotoGallery = () => {
         </div>
       )}
       {activeTab === 'videos' && (
-        <div>
+        <div style={{with: '100%'}}>
           {/* Hiển thị nội dung cho tab video */}
           <div className={cx('content')}>
             <p>This is the content for Videos tab.</p>
@@ -111,7 +60,7 @@ const PhotoGallery = () => {
         </div>
       )}
       {activeTab === 'gifs' && (
-        <div>
+        <div style={{with: '100%'}}>
           {/* Hiển thị nội dung cho tab GIFs */}
           <div className={cx('content')}>
             <p>This is the content for GIFs tab.</p>
