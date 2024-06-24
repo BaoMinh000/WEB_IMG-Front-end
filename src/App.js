@@ -6,18 +6,6 @@ import { DefaultLayout } from "./Component/Layout";
 import "./App.css";
 
 function App() {
-    // const [greeting, setGreeting] = useState('');
-
-    // useEffect(() => {
-    //   axios.get('http://localhost:5000/api/helloworld')
-    //     .then(response => {
-    //       setGreeting(response.data.sayHi);
-    //     })
-    //     .catch(error => {
-    //       console.error('Error fetching greeting:', error);
-    //     });
-    // }, []);
-
     return (
         <Router>
             <div className="App" style={{ height: "100vh" }}>

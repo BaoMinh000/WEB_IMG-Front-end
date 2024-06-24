@@ -20,7 +20,6 @@ const publicRoute = [
     { path: "/login", Component: LoginPage },
     { path: "/user/profile", Component: UserProfilePage },
 ];
-
 const privateRoute = [];
 
 export { publicRoute, privateRoute };

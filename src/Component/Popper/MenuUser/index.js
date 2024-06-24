@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios"; // Import Axios for making HTTP requests
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import classNames from "classnames/bind";
 import styles from "./MenuUser.module.scss";
 import { Link } from "react-router-dom";

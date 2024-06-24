@@ -16,7 +16,7 @@ function PageListUser() {
     const msg = useSelector((state) => state.user.msg);
     const users = AllUser?.users;
     const [isRefreshingToken, setIsRefreshingToken] = useState(false); // Thêm state để theo dõi việc làm mới token
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         const axiosJWT = axios.create();

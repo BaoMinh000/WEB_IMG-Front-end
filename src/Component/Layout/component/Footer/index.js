@@ -3,7 +3,6 @@ import styles from "./Footer.module.scss";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faAppStore,
     faApple,
     faFacebookF,
     faGooglePlay,

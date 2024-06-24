@@ -24,10 +24,10 @@ function LoginPage() {
         dispatch(loginUser(newUser, navigate));
     };
 
-    const resetFormLogin = () => {
-        setEmail("");
-        setPassword("");
-    };
+    // const resetFormLogin = () => {
+    //     setEmail("");
+    //     setPassword("");
+    // };
 
     return (
         <main className={cx("contentLogin")}>

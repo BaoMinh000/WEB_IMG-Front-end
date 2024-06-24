@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getImage } from "../ApiRequest";
+// import { getImage } from "../ApiRequest";
 
 const userSlice = createSlice({
     name: "user",
@@ -12,6 +12,7 @@ const userSlice = createSlice({
         msg: "",
     },
     reducers: {
+        // Corrected to userStart
         userStart: (state) => {
             state.isFetching = true; // Corrected to state.isFetching
         },
@@ -24,13 +25,15 @@ const userSlice = createSlice({
             state.isFetching = false; // Corrected to state.isFetching
             state.error = true;
         },
+
+        // Corrected to DeleteUserStart
         DeleteUserStart: (state) => {
             state.isFetching = true; // Corrected to state.isFetching
         },
         DeleteUserSuccess: (state, action) => {
             state.isFetching = false; // Corrected to state.isFetching
             // state.allUser = action.payload; // Corrected to state.allUser
-            state.messages = action.payload.message;
+            state.messages = action.paylo6ad.message;
             console.log("Delete user success message:", action.payload.message);
             state.error = false;
         },
@@ -38,6 +41,8 @@ const userSlice = createSlice({
             state.isFetching = false; // Corrected to state.isFetching
             state.error = true;
         },
+
+        // Corrected to uploadFileStart
         uploadFileStart: (state) => {
             state.isFetching = true;
         },
@@ -53,6 +58,7 @@ const userSlice = createSlice({
             state.error = true;
         },
 
+        // Corrected to getImageStart
         getImageStart: (state) => {
             state.isFetching = true;
         },
