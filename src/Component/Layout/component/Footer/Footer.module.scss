@@ -17,7 +17,7 @@
         display: block;
         padding: 8px;
         color: white;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         &-link {
             color: white;
             text-decoration: none;
@@ -26,6 +26,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            
         }
         &-link-app {
             display: inline-block;
@@ -50,9 +51,9 @@
             .link-app-install {
                 margin: 0 auto;
                 display: block;
-                width: 140px;
+                width: 100%;
                 max-width: 200px;
-                padding: 4px 6px;
+                padding:6px 8px;
                 border: 1px solid white;
                 border-radius: 5px;
                 &--btn {
@@ -64,6 +65,9 @@
                         font-size: 2rem;
                         margin-right: 8px;
                     }
+                }
+                p{
+                    margin-bottom: 0;
                 }
                 &--word-small {
                     font-size: 0.7rem;

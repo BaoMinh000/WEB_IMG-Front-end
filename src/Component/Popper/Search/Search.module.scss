@@ -46,6 +46,69 @@
     color: var(--primary-color);
   }
 }
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-radius: 5px;
+  -webkit-user-select: none;
+  user-select: none;
+  .btn-type-search {
+      width: 20%;
+      position: relative;
+      background-color: white;
+      font-size: 1.2rem;
+      color: black;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      /* Thêm phần tử pseudo ::after để tạo thanh dọc */
+      &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          right: 0px; /* Khoảng cách từ phần tử chính đến thanh dọc */
+          transform: translateY(-50%);
+          width: 2px; /* Độ dày của thanh dọc */
+          height: 80%; /* Chiều cao của thanh dọc */
+          background-color: rgba(95, 95, 95, 0.532);
+      }
+      .type-search-icon {
+          float: right;
+      }
+  }
+}
+// Hiển thị danh sách loại tìm kiếm khi click vào nút
+.menu-category-search{
+  position: absolute;
+  width: 100%;
+  top: calc(100% + 10px);
+  background-color: white;
+  display: block;
+  padding: 20px 0;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  //không cho chọn chữ 
+  -webkit-user-select: none;
+  user-select: none;
+
+  ul{
+    padding: 0;
+    margin: 0;
+    li{
+      padding: 8px;
+      &:hover{
+        background-color: #f5f5f5;
+      }
+    }
+    
+  }
+}
 
 .button-clear .fa-times-circle 
 {

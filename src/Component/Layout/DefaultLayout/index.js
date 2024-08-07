@@ -1,4 +1,3 @@
-//CSS
 import classNames from "classnames/bind";
 import style from "./DefaultLayout.scss";
 import Header from "../component/Header";
@@ -9,17 +8,18 @@ const cx = classNames.bind(style);
 
 function DefaultLayout({ children }) {
     return (
-        <div className={cx("appcontainer")}>
-            <Header />
-            {/*  */}
-            <div className={cx("grid wide")}>
-                <div className={cx("row container")}>
-                    <div className={cx("content col l-12 m-12 c-12")}>
-                        {children}
+        <div className={cx("appcontainer")} >
+            <Header className="header" />
+            <div className="container" style={{padding:'0'}}>
+                <div className="row align-items-center" style={{width:'100%'}}>
+                    <div className="col-12" style={{paddingRight:'0', padddingleft:'0'}}>
+                        <div className={cx("content")}>
+                            {children}
+                        </div>
                     </div>
                 </div>
             </div>
-            <Footer />
+            <Footer className="footer" />
         </div>
     );
 }

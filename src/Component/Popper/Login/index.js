@@ -127,7 +127,7 @@ function LoginModal({ isOpen, onClose, onLogin, closeisLogin }) {
                                     Remember me
                                 </label>
                                 <a href="/">Forgot Password</a>
-                            </div>
+                            </div>e
                             <button
                                 type="submit"
                                 className={cx(
@@ -141,8 +141,7 @@ function LoginModal({ isOpen, onClose, onLogin, closeisLogin }) {
                             <div className={cx("login-register")}>
                                 <p>
                                     Don't have an account?
-                                    <a
-                                        href="#"
+                                    <span
                                         className="register-link"
                                         onClick={() => {
                                             handleRegisterClick();
@@ -150,7 +149,7 @@ function LoginModal({ isOpen, onClose, onLogin, closeisLogin }) {
                                         }}
                                     >
                                         Register
-                                    </a>
+                                    </span>
                                 </p>
                             </div>
                         </form>
@@ -232,8 +231,7 @@ function LoginModal({ isOpen, onClose, onLogin, closeisLogin }) {
                             <div className={cx("login-register")}>
                                 <p>
                                     Already have an account?
-                                    <a
-                                        href="#"
+                                    <span
                                         className="login-link"
                                         onClick={() => {
                                             handleLoginClick();
@@ -241,7 +239,7 @@ function LoginModal({ isOpen, onClose, onLogin, closeisLogin }) {
                                         }}
                                     >
                                         Login
-                                    </a>
+                                    </span>
                                 </p>
                             </div>
                         </form>

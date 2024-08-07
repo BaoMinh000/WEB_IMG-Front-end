@@ -176,10 +176,12 @@
   font-weight: 500;
   margin: 25px 0 10px;
 }
-.login-register p a {
+.login-register p span {
+  cursor: pointer;
   color: var(--primary-color);
   text-decoration: none;
 }
-.login-register p a:hover {
+.login-register p span:hover {
+  cursor: pointer;
   text-decoration: underline;
 }

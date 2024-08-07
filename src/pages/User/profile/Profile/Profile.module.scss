@@ -16,7 +16,7 @@
     height: 80px;
     padding: 12px;
     label {
-        width: 20%;
+        width: 100%;
         font-size: 1.2rem;
         margin-bottom: 0.5rem;
         text-align: left; /* Đặt nội dung bên trái */
@@ -32,7 +32,6 @@
             border: 1px solid #007bff;
         }
     }
-
     .error{
         color: red;
         font-size: 0.8rem;

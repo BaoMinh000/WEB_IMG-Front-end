@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Fragment } from "react";
 import { publicRoute } from "./routes";
 import { DefaultLayout } from "./Component/Layout";
+import 'bootstrap/dist/css/bootstrap.min.css';// Thư viện css của bootstrap
 import "./App.css";
 
 function App() {

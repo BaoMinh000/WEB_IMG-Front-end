@@ -1,5 +1,13 @@
+// Home.module.scss
+
 body {
     font-family: Arial, sans-serif;
+}
+.row{
+    a{
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 .banner {
     position: relative;
@@ -9,70 +17,37 @@ body {
     color: white;
     padding: 20px;
     text-align: center;
+
     .banner-layer {
-        background-color: rgba(
-            255,
-            255,
-            255,
-            0.1
-        ); /* Màu nền với độ trong suốt */
+        background-color: rgba(255, 255, 255, 0.1); /* Màu nền với độ trong suốt */
         backdrop-filter: blur(2px); /* Độ mờ của nền */
     }
 
     h1 {
         margin: 0;
     }
+
     p {
         margin: 15px 0;
     }
 }
+
 .navbar {
     border-radius: 5px;
     background-color: white;
     min-height: 40px;
     padding: 10px 10px;
 }
-.search-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    border-radius: 5px;
-    .btn-type-search {
-        width: 10%;
-        position: relative;
-        background-color: white;
-        color: black;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
 
-        /* Thêm phần tử pseudo ::after để tạo thanh dọc */
-        &::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            right: 0px; /* Khoảng cách từ phần tử chính đến thanh dọc */
-            transform: translateY(-50%);
-            width: 2px; /* Độ dày của thanh dọc */
-            height: 80%; /* Chiều cao của thanh dọc */
-            background-color: rgba(95, 95, 95, 0.532);
-        }
-        .type-search-icon {
-            float: right;
-        }
-    }
-}
 .banner-content {
     margin-top: 60px;
+
     .banner-title {
         --showdowncolor: #b3b3b3;
         margin: 20px 0;
         font-size: 1.4rem;
         font-weight: 700;
-        text-shadow: -1px -1px 0 var(--showdowncolor),
-            1px -1px 0 var(--showdowncolor), -1px 1px 0 var(--showdowncolor),
-            1px 1px 0 var(--showdowncolor); /* Hiệu ứng viền với màu trắng */
+        text-shadow: -1px -1px 0 var(--showdowncolor), 1px -1px 0 var(--showdowncolor), -1px 1px 0 var(--showdowncolor), 1px 1px 0 var(--showdowncolor); /* Hiệu ứng viền với màu trắng */
     }
 }
 
@@ -86,6 +61,7 @@ body {
     cursor: pointer;
     transition: all 0.25s ease-in-out;
 }
+
 .start-btn:hover {
     transform: scale3d(1.1, 1.1, 1.1);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -93,45 +69,61 @@ body {
 
 // Media
 .Media_Directory {
-    background-color: #dce1e1;
-    padding: 80px;
-}
-.Media_Directory-Title {
-    font-size: 1.6rem;
-    font-weight: 400;
-    margin-bottom: 20px;
-}
-.Media_Directory-List {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    width: 1200px;
-    margin: 0 auto;
-}
-.Media_Directory_Item {
-    width: 33%;
-    background-color: #fff;
-    border: 1px solid #dae8e7;
-    color: #000;
-    display: inline-block;
-    padding: 8px;
-    text-align: center;
-    transition: all 0.25s ease-in;
-}
-.Media_Directory_Item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-.Media_Directory_Item_img {
-    padding: 8px;
-    object-fit: cover;
-}
-.Media_Directory_Item_Title {
-    font-size: 1.2rem;
-    margin: 10px 0;
-}
-//Free
-.Media_Directory--free {
-    padding: 80px;
+    // background-color: #dce1e1;
+    padding: 20px;
+
+    &-Title {
+        font-size: 1.6rem;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+
+    &-List {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin: 0 auto;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
+    &_Item {
+        background-color: #fff;
+        border: 1px solid #dae8e7;
+        color: #000;
+        display: inline-block;
+        padding: 8px;
+        text-align: center;
+        transition: all 0.25s ease-in;
+
+        &:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        &_img {
+            padding: 8px;
+            object-fit: cover;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        &_Title {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+    }
 }

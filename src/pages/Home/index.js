@@ -1,28 +1,21 @@
 import classNames from "classnames/bind";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from "@tippyjs/react/headless";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.scss";
-import ProductItem from "../../Component/ProductItem";
 import Searchbar from "../../Component/Popper/Search";
 import Properwrapper from "../../Component/Popper/Wapper";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-
+import Slider from "../../Component/Slider";
 import img from "../../Asset/Img/demo.jpg";
 const cx = classNames.bind(styles);
 
 function Home() {
-    var widthIMG = 340;
-    var heightIMG = 320;
-
     const navigate = useNavigate();
     function handleStartClick() {
         navigate("/paypage"); // Chuyển hướng sang trang /paypage khi người dùng nhấp vào nút "Bắt đầu"
         window.location.reload();
     }
+
     return (
         <div className={cx("home")}>
             <Tippy
@@ -35,10 +28,6 @@ function Home() {
                     >
                         <Properwrapper>
                             <h6 className={cx("search-title")}>Sản phẩm</h6>
-                            <ProductItem />
-                            <ProductItem />
-                            <ProductItem />
-                            <ProductItem />
                         </Properwrapper>
                     </div>
                 )}
@@ -46,17 +35,8 @@ function Home() {
 
             <div className={cx("banner")}>
                 <div className={cx("banner-layer")}>
-                    <div className={cx("navbar")}>
-                        <div className={cx("search-bar")}>
-                            <div className={cx("btn-type-search")}>
-                                All images
-                                <FontAwesomeIcon
-                                    icon={faChevronDown}
-                                    className={cx("type-search-icon")}
-                                />
-                            </div>
-                            <Searchbar />
-                        </div>
+                    <div className={cx("navbar", "col-0")} style={{paddingLeft:'0'}}>
+                        <Searchbar />
                     </div>
                     <div className={cx("banner-content")}>
                         <div className={cx("banner-title")}>
@@ -76,99 +56,87 @@ function Home() {
                     </div>
                 </div>
             </div>
+
+            {/* Slider */}
+            <div>
+                <Slider />
+            </div>
+
             <div className={cx("Media_Directory")}>
                 <div className={cx("Media_Directory-Title")}>
                     Find the right content for your projects
                 </div>
-                <div className={cx("Media_Directory-List")}>
-                    <a href="/" className={cx("Media_Directory_Item")}>
-                        <div className={cx("Media_Directory_Item_img")}>
-                            <img
-                                src={img}
-                                alt="icon"
-                                width={widthIMG}
-                                height={heightIMG}
-                            />
-                        </div>
-                        <div className={cx("Media_Directory_Item_Title")}>
-                            Ảnh
+                <div className="row" style={{padding:'12px'}}>
+                    <a href="/" className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
+                        <div className={cx("Media_Directory_Item")}>
+                            <div className={cx("Media_Directory_Item_img")}>
+                                <img src={img} alt="icon" />
+                            </div>
+                            <div className={cx("Media_Directory_Item_Title")}>
+                                Ảnh
+                            </div>
                         </div>
                     </a>
 
-                    <a href="/" className={cx("Media_Directory_Item")}>
-                        <div className={cx("Media_Directory_Item_img")}>
-                            <img
-                                src={img}
-                                alt="icon"
-                                width={widthIMG}
-                                height={heightIMG}
-                            />
-                        </div>
-                        <div className={cx("Media_Directory_Item_Title")}>
-                            Video
+                    <a href="/" className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
+                        <div className={cx("Media_Directory_Item")}>
+                            <div className={cx("Media_Directory_Item_img")}>
+                                <img src={img} alt="icon" />
+                            </div>
+                            <div className={cx("Media_Directory_Item_Title")}>
+                                Video
+                            </div>
                         </div>
                     </a>
 
-                    <a href="/" className={cx("Media_Directory_Item")}>
-                        <div className={cx("Media_Directory_Item_img")}>
-                            <img
-                                src={img}
-                                alt="icon"
-                                width={widthIMG}
-                                height={heightIMG}
-                            />
-                        </div>
-                        <div className={cx("Media_Directory_Item_Title")}>
-                            Gif
+                    <a href="/" className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
+                        <div className={cx("Media_Directory_Item")}>
+                            <div className={cx("Media_Directory_Item_img")}>
+                                <img src={img} alt="icon" />
+                            </div>
+                            <div className={cx("Media_Directory_Item_Title")}>
+                                Gif
+                            </div>
                         </div>
                     </a>
                 </div>
             </div>
-            {/*  */}
-            <div className={cx("Media_Directory--free")}>
+
+            <div className={cx("Media_Directory")} >
                 <div className={cx("Media_Directory-Title")}>
                     Get free stock photos, illustrations and videos
                 </div>
-                <div className={cx("Media_Directory-List")}>
-                    <div className={cx("Media_Directory_Item")}>
-                        <div className={cx("Media_Directory_Item_img")}>
-                            <img
-                                src={img}
-                                alt="icon"
-                                width={widthIMG}
-                                height={heightIMG}
-                            />
-                        </div>
-                        <div className={cx("Media_Directory_Item_Title")}>
-                            Ảnh
+                <div className="row" style={{padding:'12px'}}>
+                    <div className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
+                        <div className={cx("Media_Directory_Item")}>
+                            <div className={cx("Media_Directory_Item_img")}>
+                                <img src={img} alt="icon" />
+                            </div>
+                            <div className={cx("Media_Directory_Item_Title")}>
+                                Ảnh
+                            </div>
                         </div>
                     </div>
 
-                    <div className={cx("Media_Directory_Item")}>
-                        <div className={cx("Media_Directory_Item_img")}>
-                            <img
-                                src={img}
-                                alt="icon"
-                                width={widthIMG}
-                                height={heightIMG}
-                            />
-                        </div>
-                        <div className={cx("Media_Directory_Item_Title")}>
-                            Video
+                    <div className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}} >
+                        <div className={cx("Media_Directory_Item")}>
+                            <div className={cx("Media_Directory_Item_img")}>
+                                <img src={img} alt="icon" />
+                            </div>
+                            <div className={cx("Media_Directory_Item_Title")}>
+                                Video
+                            </div>
                         </div>
                     </div>
 
-                    <div className={cx("Media_Directory_Item")}>
-                        <div className={cx("Media_Directory_Item_img")}>
-                            <img
-                                src={img}
-                                alt="icon"
-                                width={widthIMG}
-                                height={heightIMG}
-                            />
-                        </div>
-                        <div className={cx("Media_Directory_Item_Title")}>
-                            Gif
+                    <div className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
+                        <div className={cx("Media_Directory_Item")}>
+                            <div className={cx("Media_Directory_Item_img")}>
+                                <img src={img} alt="icon" />
+                            </div>
+                            <div className={cx("Media_Directory_Item_Title")}>
+                                Gif
+                            </div>
                         </div>
                     </div>
                 </div>

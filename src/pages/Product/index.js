@@ -1,5 +1,10 @@
+import React from 'react';
+import ProductDetail from '../../Component/ProductDetail';
+
 function Product() {
-  return <h2>Product page</h2>;
+  return(
+    <ProductDetail/>
+  );
 }
 
 export default Product;

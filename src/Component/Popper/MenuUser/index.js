@@ -7,26 +7,40 @@ import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
+const URL_BE = process.env.REACT_APP_URL_BE;
+
 function MenuUser({ isShowMenuUser, onClose }) {
     const handleLogout = async (event) => {
         event.preventDefault();
         try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.log("No token found");
+                return;
+            }
+    
             const response = await axios.post(
-                "http://localhost:5000/auth/logout"
+                `${URL_BE}/auth/logout`,
+                {},
+                {
+                    headers: {
+                        'token': `Bearer ${token}`
+                    }
+                }
             );
-            console.log(response.data);
+            
             if (response.status === 200) {
-                //clear localStorage
+                // Clear localStorage
                 localStorage.removeItem("user");
                 localStorage.removeItem('token');
-                //reload page
+                // Reload page
                 window.location.reload();
             }
         } catch (error) {
-            console.log("Logout", error);
+            console.log("Logout error:", error);
         }
     };
-
+    
     if (!isShowMenuUser) return null;
     return (
         <div>

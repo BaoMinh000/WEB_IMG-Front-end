@@ -19,11 +19,11 @@ const UserProfilePage = () => {
   };
 
   return (
-    <div className={cx('container')}>
-      <div className={cx('category-list col l-3')}>
+    <div className={cx('container')} style={{padding:'0'}}>
+      <div className={cx('category-list', 'col-lg-3 col-md-5 col-3')}>
         <CategoryList onSelectCategory={handleCategorySelect} />
       </div>
-      <div className={cx('content','col l-9')}>
+      <div className={cx('content','col-lg-9 col-md-7 col-9')}>
         {selectedCategory === 'profile' && <UserProfile user={user} />}
         {selectedCategory === 'password' && <Password />}
         {selectedCategory === 'photo-gallery' && <PhotoGallery />}

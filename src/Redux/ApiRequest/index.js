@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import {
     loginFailure,
     loginStart,
@@ -19,11 +20,12 @@ import {
     getImageStart, getImageSuccess, getImageFailure
 } from "../UserSlice";
 
+const URL_BE = process.env.REACT_APP_URL_BE;
 
 export const loginUser = (user, setisOpen) => async (dispatch, navigate) => {
     dispatch(loginStart());
     try {
-        const res = await axios.post("http://localhost:5000/auth/login", user);
+        const res = await axios.post(`${URL_BE}/auth/login`, user);
         if (res.status === 200) {
             // Xử lý dữ liệu phản hồi ở đây nếu cần
             dispatch(loginSuccess(res.data)); // Assuming res.data contains user data
@@ -52,10 +54,7 @@ export const loginUser = (user, setisOpen) => async (dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerStart());
     try {
-        const res = await axios.post(
-            "http://localhost:5000/auth/register",
-            user
-        );
+        const res = await axios.post(`${URL_BE}/auth/register`,user);
         if (res.status === 200) {
             // Xử lý dữ liệu phản hồi ở đây nếu cần
             dispatch(registerSuccess());
@@ -76,7 +75,7 @@ export const registerUser = async (user, dispatch, navigate) => {
 export const getAllUsers = async (access_token, dispatch, axiosJWT) => {
     dispatch(userStart());
     try {
-        const res = await axiosJWT.get("http://localhost:5000/user", {
+        const res = await axiosJWT.get(`${URL_BE}/user`, {
             headers: {
                 token: `${access_token}`,
             },
@@ -99,7 +98,7 @@ export const DeleteUser = async (access_token, dispatch, id, axiosJWT) => {
     dispatch(DeleteUserStart());
     console.log("Delete: access_token", access_token);
     try {
-        const res = await axiosJWT.delete(`http://localhost:5000/user/${id}`, {
+        const res = await axiosJWT.delete(`${URL_BE}/user/${id}`, {
             headers: {
                 token: `${access_token}`,
             },
@@ -122,7 +121,7 @@ export const DeleteUser = async (access_token, dispatch, id, axiosJWT) => {
 export const uploadFile = async (file, dispatch, access_token, axiosJWT) => {
     dispatch(uploadFileStart());
     try {
-        const res = await axiosJWT.post("http://localhost:5000/upload", file, {
+        const res = await axiosJWT.post(`${URL_BE}/upload`, file, {
             headers: {
                 token: `${access_token}`,
             },
@@ -143,7 +142,7 @@ export const uploadFile = async (file, dispatch, access_token, axiosJWT) => {
 export const getImage = async (access_token, dispatch, axiosJWT) => {
     dispatch(getImageStart());
     try {
-        const res = await axiosJWT.get("http://localhost:5000/user/images", {
+        const res = await axiosJWT.get(`${URL_BE}/user/images`, {
             headers: {
                 token: `${access_token}`,
             },

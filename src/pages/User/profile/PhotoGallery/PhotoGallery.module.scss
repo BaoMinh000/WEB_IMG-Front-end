@@ -26,8 +26,9 @@
 }
 
 .tab-content {
+    min-height: 600px;
     border: 1px solid #ccc; /* Border cho phần nội dung */
-    padding: 20px;
+    padding: 10px;
     margin-top: 10px;
 }
 
@@ -60,42 +61,77 @@
     background: #555; /* Màu nền của nút cuộn khi di chuột vào */
 }
 
-.photo-grid {
+
+//css Ô ITEM TRONG TAB
+.list-item {
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 16px;
-}
-
-.photo {
-    width: calc(12.5% - 8px); /* Đặt kích thước cho ô ảnh và cách nhau */
-    margin-right: 8px;
-    margin-bottom: 8px;
+  }
+  
+  .item {
+    width: calc(16.667% - 20px); /* Đặt kích thước cho ô item và cách nhau */
+    height: 120px;
+    margin: 10px;
+    border-radius: 4px;
     position: relative;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    overflow: hidden; /* Ẩn phần nội dung vượt ra ngoài */
-    box-sizing: border-box; /* Tính cả border vào kích thước */
-}
-
-.photo img {
+    overflow: hidden;
+    background-color: #f0f0f0;
+    text-align: center;
+    transition: transform 0.3s; /* Hiệu ứng chuyển đổi */
+  }
+  .item video {
     width: 100%;
-    border-radius: 5px;
-    transition: all 0.3s ease-in;
-}
-
-.photo:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.photo .delete {
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .item:hover {
+    transform: scale(1.05); /* Phóng to khi hover */
+  }
+  
+  .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .item p {
     position: absolute;
-    top: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 14px;
+    opacity: 0; /* Ẩn mặc định */
+    transition: opacity 0.3s; /* Hiệu ứng chuyển đổi */
+  }
+  
+  .item:hover p {
+    opacity: 1; /* Hiển thị khi hover */
+  }
+  
+  //button 
+  .delete-button {
+    position: absolute;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 2px 5px;
-    border-radius: 0 0 0 5px;
+    top: 0;
+    background: transparent;
+    font-size: 1.1rem;
+    padding: 6px;
+    color: black;
+    border: none;
     cursor: pointer;
-}
+    z-index: 1;
+    opacity: 0;
+    transition:ease-in-out 0.3s;
+    :hover {
+      scale: 1.1;
+    }
+  }
+
+  .item:hover .delete-button {
+    opacity: 1;
+  }

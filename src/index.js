@@ -8,13 +8,17 @@ import GlobalStyles from "./Component/GlobalStyles";
 import { Provider } from "react-redux";
 import store from "./Redux/store";
 
+// Thư viện cho video và ảnh
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <Provider store={store}>
-        <GlobalStyles>
-            <App />
-        </GlobalStyles>
-    </Provider>
+  <Provider store={store}>
+    <GlobalStyles>
+      <App />
+    </GlobalStyles>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
