@@ -127,7 +127,7 @@ function LoginModal({ isOpen, onClose, onLogin, closeisLogin }) {
                                     Remember me
                                 </label>
                                 <a href="/">Forgot Password</a>
-                            </div>e
+                            </div>
                             <button
                                 type="submit"
                                 className={cx(

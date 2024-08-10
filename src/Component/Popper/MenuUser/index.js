@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios"; // Import Axios for making HTTP requests
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 import classNames from "classnames/bind";
 import styles from "./MenuUser.module.scss";
 import { Link } from "react-router-dom";
@@ -33,8 +33,11 @@ function MenuUser({ isShowMenuUser, onClose }) {
                 // Clear localStorage
                 localStorage.removeItem("user");
                 localStorage.removeItem('token');
-                // Reload page
-                window.location.reload();
+                // Clear cookies
+                Cookies.remove("refreshToken");
+                // Redirect to home page
+                window.location.href = "/";
+
             }
         } catch (error) {
             console.log("Logout error:", error);

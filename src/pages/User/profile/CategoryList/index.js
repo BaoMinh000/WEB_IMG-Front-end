@@ -5,11 +5,14 @@ import classNames from 'classnames/bind';
 import IMG from '../../../../Asset/Img/Logo/logo512.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
+
 
 const cx = classNames.bind(style);
 
 const CategoryList = ({ onSelectCategory }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('profile');
+  const user = useSelector((state) => state.auth.login.currentUser);
 
   const handleSelectCategory = (category) => {
     onSelectCategory(category);
@@ -25,7 +28,7 @@ const CategoryList = ({ onSelectCategory }) => {
             <FontAwesomeIcon icon={faPen} />
           </button>
         </div>
-        <h3 className={cx('user-name')}>Bao Minh</h3>
+        <h3 className={cx('user-name')}>{user.user.username}</h3>
       </div>
       <ul className={cx('CategoryList')}>
         <li>

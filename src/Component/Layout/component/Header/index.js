@@ -5,14 +5,17 @@ import Logo from "../../../../Asset/Img/Logo/logo512.png";
 import Upload from "../../../Popper/Upload";
 import MenuUser from "../../../Popper/MenuUser";
 import MenuMobi from "../../../MenuMobile";
+import { useSelector, useDispatch } from "react-redux";
+import { loginSuccess, loginFailure } from "../../../../Redux/authSlice/index.js";
 //libary
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
-
+import axios from "axios";
+import { jwtDecode } from 'jwt-decode';
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { loginSuccess, loginFailure } from "../../../../Redux/authSlice/index.js";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const decodeToken = (token) => JSON.parse(atob(token.split('.')[1]));
@@ -23,13 +26,11 @@ function Header() {
     const [ShowUpLoad, setShowUpLoad] = useState(false);
     const [ShowMenuUser, setShowMenuUser] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
-    const btnMenuRef = useRef(null);
-    const menuRefMobi = useRef(null);
 
-    
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const user = useSelector((state) => state.auth.login.currentUser);
+    const user = useSelector((state) => state.auth?.login?.currentUser);
 
     const handleLoginClick = () => {
         setisOpen(true);
@@ -53,16 +54,6 @@ function Header() {
         setMenuOpen(!menuOpen);
         console.log('menuopn', menuOpen);
     };
-    // const handleClickOutside = (event) => {
-    //     if (
-    //         menuRefMobi.current &&
-    //         !menuRefMobi.current.contains(event.target) &&
-    //         btnMenuRef.current &&
-    //         !btnMenuRef.current.contains(event.target)
-    //     ) {
-    //         setMenuOpen(false);
-    //     }
-    // }
 
     //duy trì đăng nhập khi reload
     useEffect(() => {
@@ -71,29 +62,32 @@ function Header() {
             try {
                 const user = JSON.parse(storedUser);
                 const decodedToken = decodeToken(user.access_token);
+
                 if (decodedToken && decodedToken.exp * 1000 > Date.now()) {
                     dispatch(loginSuccess(user));
                 } else {
-                    console.error("Token is invalid or expired");
-                    dispatch(loginFailure());
+                    // Token expired or invalid
+                    handleLogout();
                 }
             } catch (error) {
                 console.error("Error restoring user from local storage:", error);
-                dispatch(loginFailure());
+                handleLogout();
             }
         }
-    }, [dispatch]);
+    }, [dispatch, navigate]);
 
-    // useEffect(() => {
-    //     if(menuOpen){
-    //         document.addEventListener("mousedown", handleClickOutside);
-    //     }else{
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     }
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     }
-    // }, [menuOpen]);
+    const handleLogout = () => {
+        // Clear user and token data
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        Cookies.remove("refreshToken");
+
+        // Navigate to home or login page
+        navigate("/");
+        
+        // Dispatch login failure action
+        dispatch(loginFailure());
+    };
 
     return (
         <header className={cx("header")}>

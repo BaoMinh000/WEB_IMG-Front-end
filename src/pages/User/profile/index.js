@@ -6,14 +6,11 @@ import PaymentMethods from './PaymentMethods';
 import Password from './Password';
 import style from './Userprofile.module.scss';
 import classNames from 'classnames/bind';
-import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(style);
 
 const UserProfilePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('profile');
-  const user = useSelector((state) => state.auth.login.currentUser);
-
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
   };
@@ -24,7 +21,7 @@ const UserProfilePage = () => {
         <CategoryList onSelectCategory={handleCategorySelect} />
       </div>
       <div className={cx('content','col-lg-9 col-md-7 col-9')}>
-        {selectedCategory === 'profile' && <UserProfile user={user} />}
+        {selectedCategory === 'profile' && <UserProfile/>}
         {selectedCategory === 'password' && <Password />}
         {selectedCategory === 'photo-gallery' && <PhotoGallery />}
         {selectedCategory === 'payment-methods' && <PaymentMethods />}

@@ -1,93 +1,105 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { getImage } from "../ApiRequest";
 
 const userSlice = createSlice({
-    name: "user",
-    initialState: {
-        users: {
-            allUser: null,
-            isFetching: false,
-            error: false,
-        },
-        msg: "",
+  name: "user",
+  initialState: {
+    allUsers: null,
+    isFetching: false,
+    error: false,
+    userDetails: null,
+  },
+  reducers: {
+    // Action to start getting users
+    usersStart: (state) => {
+      state.isFetching = true;
+      state.error = false;
     },
-    reducers: {
-        // Corrected to userStart
-        userStart: (state) => {
-            state.isFetching = true; // Corrected to state.isFetching
-        },
-        userSuccess: (state, action) => {
-            state.isFetching = false; // Corrected to state.isFetching
-            state.allUser = action.payload; // Corrected to state.allUser
-            state.error = false;
-        },
-        userFailure: (state) => {
-            state.isFetching = false; // Corrected to state.isFetching
-            state.error = true;
-        },
-
-        // Corrected to DeleteUserStart
-        DeleteUserStart: (state) => {
-            state.isFetching = true; // Corrected to state.isFetching
-        },
-        DeleteUserSuccess: (state, action) => {
-            state.isFetching = false; // Corrected to state.isFetching
-            // state.allUser = action.payload; // Corrected to state.allUser
-            state.messages = action.paylo6ad.message;
-            console.log("Delete user success message:", action.payload.message);
-            state.error = false;
-        },
-        DeleteUserFailure: (state) => {
-            state.isFetching = false; // Corrected to state.isFetching
-            state.error = true;
-        },
-
-        // Corrected to uploadFileStart
-        uploadFileStart: (state) => {
-            state.isFetching = true;
-        },
-        uploadFileSuccess: (state, action) => {
-            state.isFetching = false;
-            state.messages = action.payload.message;
-            state.allUser = action.payload;
-            console.log("Upload file success message:", action.payload.message);
-            state.error = false;
-        },
-        uploadFileFailure: (state) => {
-            state.isFetching = false;
-            state.error = true;
-        },
-
-        // Corrected to getImageStart
-        getImageStart: (state) => {
-            state.isFetching = true;
-        },
-        getImageSuccess: (state, action) => {
-            state.isFetching = false;
-            state.images = action.payload;
-            state.error = false;
-        },
-        getImageFailure: (state) => {
-            state.isFetching = false;
-            state.error = true;
-        },
-
+    // Action to handle successful retrieval of users
+    usersSuccess: (state, action) => {
+      state.isFetching = false;
+      state.allUsers = action.payload;
+      state.error = false;
     },
+    // Action to handle failed retrieval of users
+    usersFailure: (state) => {
+      state.isFetching = false;
+      state.error = true;
+    },
+    // Action to start getting user details
+    userDetailsStart: (state) => {
+      state.isFetching = true;
+      state.error = false;
+    },
+    // Action to handle successful retrieval of user details
+    userDetailsSuccess: (state, action) => {
+      state.isFetching = false;
+      state.userDetails = action.payload;
+      state.error = false;
+    },
+    // Action to handle failed retrieval of user details
+    userDetailsFailure: (state) => {
+      state.isFetching = false;
+      state.error = true;
+    },
+    // Action to start deleting a user
+    deleteUserStart: (state) => {
+      state.isFetching = true;
+      state.error = false;
+    },
+    // Action to handle successful deletion of a user
+    deleteUserSuccess: (state, action) => {
+      state.isFetching = false;
+      state.allUsers = state.allUsers.filter(
+        (user) => user.id !== action.payload
+      );
+      state.error = false;
+    },
+    // Action to handle failed deletion of a user
+    deleteUserFailure: (state) => {
+      state.isFetching = false;
+      state.error = true;
+    },
+    // Action to start updating a user
+    updateUserStart: (state) => {
+      state.isFetching = true;
+      state.error = false;
+    },
+    // Action to handle successful user update
+    updateUserSuccess: (state, action) => {
+      state.isFetching = false;
+      // Update the user details
+      state.userDetails = action.payload;
+      // Update the user in allUsers if needed
+      if (state.allUsers) {
+        state.allUsers = state.allUsers.map(user =>
+          user.id === action.payload.id ? action.payload : user
+        );
+      }
+      state.error = false;
+    },
+    // Action to handle failed user update
+    updateUserFailure: (state) => {
+      state.isFetching = false;
+      state.error = true;
+    },
+  },
 });
 
+// Export the actions
 export const {
-    userStart,
-    userSuccess,
-    userFailure,
-    DeleteUserStart,
-    DeleteUserSuccess,
-    DeleteUserFailure,
-    uploadFileStart,
-    uploadFileSuccess,
-    uploadFileFailure,
-    getImageStart,
-    getImageSuccess,
-    getImageFailure,
+  usersStart,
+  usersSuccess,
+  usersFailure,
+  userDetailsStart,
+  userDetailsSuccess,
+  userDetailsFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
 } = userSlice.actions;
 
+// Export the reducer
 export default userSlice.reducer;
