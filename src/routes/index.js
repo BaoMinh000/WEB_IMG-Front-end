@@ -1,29 +1,26 @@
-//Page
 import Home from "../../src/pages/Home";
-// import Product from 'src/pages/Product';
-import Profile from "../../src/pages/Profile";
-// import UploadProduct from 'src/pages/UploadProduct';
 import Page403 from "../pages/PageEROR/Page403";
-//Layout
-// import { UploadLayout } from 'src/Component/Layout';
 import Paypage from "../../src/pages/Paypage";
-import PageListUser from "../pages/Admin/PageListUser";
 import LoginPage from "../pages/PageLogin";
 import UserProfilePage from "../pages/User/profile";
-import testpage from "../pages/testpage";
 import Product from "../pages/Product";
-//Pubic Route
+import ProductDetail from "../Component/ProductDetail";
+import PageListUser from "../pages/Admin/PageListUser";
+import PageAdmin from "../pages/Admin/PageAdmin";
+
 const publicRoute = [
-    { path: "/", Component: Home },
-    { path: '/product', Component: Product },
-    { path: "/page403", Component: Page403, layout: Page403 },
-    { path: "/paypage", Component: Paypage },
-    { path: "/admin/userlist", Component: PageListUser },
-    { path: "/login", Component: LoginPage },
-    { path: "/user/profile", Component: UserProfilePage },
-    { path: "/profile", Component: Profile },
-    { path: "/testpage", Component: testpage },
+    { path: "/", Component: Home , AdminOnly: false},
+    { path: '/productDetail', Component: ProductDetail , AdminOnly: false},
+    { path: "/page403", Component: Page403, layout: Page403 , AdminOnly: false},
+    // { path: "/system/admin/userlist", Component: PageListUser , AdminOnly: false},
+    { path: "/login", Component: LoginPage , AdminOnly: false},
 ];
-const privateRoute = [];
+
+const privateRoute = [
+    { path: "/system/admin", Component: PageAdmin, AdminOnly: true },
+    { path: "/user/profile", Component: UserProfilePage, AdminOnly: false },
+    { path: "/paypage", Component: Paypage , AdminOnly: false},
+
+];
 
 export { publicRoute, privateRoute };

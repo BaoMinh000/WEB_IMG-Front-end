@@ -9,7 +9,6 @@ axiosJWT.interceptors.request.use(
   (config) => {
     // Thêm access_token vào headers của mỗi yêu cầu
     const token = localStorage.getItem('token'); // Hoặc từ Redux store
-    console.log('token-from-axiosjwt:', token);
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
   }  

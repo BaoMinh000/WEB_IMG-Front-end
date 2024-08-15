@@ -6,10 +6,12 @@ import style from './Profile.module.scss';
 import classNames from 'classnames/bind';
 import axiosJWT from '../../../../api/axiosJWT';
 import axios from 'axios';
+import { loginSuccess } from '../../../../Redux/authSlice';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(style);
 
-const UserProfile = () => {
+const UserProfile = ({accessToken, userId}) => {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({});
   const userDetails = useSelector((state) => state.user?.userDetails);
@@ -18,23 +20,19 @@ const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const user = JSON.parse(localStorage.getItem('user')) || {};
-  const accessToken = localStorage.getItem('token');
-  const userId = user.user?._id;
 
-  console.log('userdataSave:', userData); 
   useEffect(() => {
     if (!userId || !accessToken) {
       return;
     }
-
     dispatch(userDetailsStart());
-
     const UserDetails = async () => {
       try {
         const response = await getUserDetails(accessToken, dispatch, userId, axiosJWT);
         setUserData(response.data);
+        //cập nhạt lai thông tin user
+        // dispatch(loginSuccess(response.data));
       } catch (err) {
-        dispatch(userDetailsFailure());
         console.error('Error fetching user details:', err);
       }
     };
@@ -73,15 +71,23 @@ const UserProfile = () => {
     try {
         console.log('Token from update:', accessToken);
 
-        const res = await axios.put(`http://localhost:5000/user/updateUser/${userId}`, userData, {
+        const res = await axiosJWT.put(`http://localhost:5000/user/updateUser/${userId}`, userData, {
             headers: {
                 token: accessToken, // Correct header for token
             },
         });
-
-        console.log('Response:', res);
+        if(res.status === 200){
+          toast.success('Update user successfully');
+          // console.log('Response:', res);
+          setIsEditing(false);
+          //refresh the page
+          window.location.reload();
+        }else{
+          toast.error('Update user failed');
+        }
     } catch (err) {
         console.error('Error updating user details:', err);
+        toast.error('Update user failed');
     }
 };
 
@@ -92,14 +98,14 @@ const UserProfile = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', position:'relative'}}>
         <h2 className={cx('title-page')} style={{ width: '100%', alignItems: 'center' }}>
           Profile Information
         </h2>
         {!isEditing && (
           <button
             className='btn btn--primary btn--size-m-'
-            style={{ marginLeft: 'auto', marginRight: '12px' }}
+            style={{position:'absolute', right: '0'}}
             onClick={handleEdit}
           >
             Edit

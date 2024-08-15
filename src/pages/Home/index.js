@@ -67,7 +67,7 @@ function Home() {
                     Find the right content for your projects
                 </div>
                 <div className="row" style={{padding:'12px'}}>
-                    <a href="/" className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
+                    <a href="/productDetail" className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
                         <div className={cx("Media_Directory_Item")}>
                             <div className={cx("Media_Directory_Item_img")}>
                                 <img src={img} alt="icon" />

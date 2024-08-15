@@ -1,137 +1,260 @@
-.title-page {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-bottom: 40px;
-}
-.tabs {
-    display: flex;
+.container {
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 8px;
 }
 
-.tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 40px;
 }
 
-.tab.active {
-    border-bottom: 2px solid #007bff; /* Màu sắc cho border khi tab được chọn */
+.btn-add {
+  background-color: #007bff;
+  color: #fff;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 20px;
 }
 
-.tab:hover {
-    background-color: #f0f0f0; /* Màu nền khi hover */
+.upload-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
-.tab + .tab {
-    margin-left: 10px; /* Khoảng cách giữa các tab */
+.file-input {
+  display: block;
 }
 
-.tab-content {
-    min-height: 600px;
-    border: 1px solid #ccc; /* Border cho phần nội dung */
-    padding: 10px;
-    margin-top: 10px;
+.product-list-section {
+  margin-top: 20px;
 }
 
-//tab-content
-.content {
-    height: 460px; /* Đặt chiều cao cho nội dung */
-    overflow-y: auto; /* Thêm thanh cuộn theo chiều dọc khi cần */
-    margin: 20px 0; /* Khoảng cách 20px trên và dưới */
-    border: 1px solid #ccc; /* Border cho phần nội dung */
-    border-radius: 5px; /* Bo góc của phần nội dung */
-    padding: 10px; /* Khoảng cách bên trong */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style-type: none;
+  padding: 0;
 }
 
-/* CSS cho thanh cuộn */
-.content::-webkit-scrollbar {
-    width: 8px; /* Độ rộng của thanh cuộn */
+.product-list li {
+  width: 25%; /* Đặt chiều rộng cho từng mục sản phẩm */
+  background: #eee;
+  margin-bottom: 5px;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative; /* Để định vị cho product-action */
 }
 
-.content::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Màu nền của thanh cuộn */
-    border-radius: 5px; /* Bo góc của thanh cuộn */
+.product-info {
+  display: flex;
+  align-items: center;
 }
 
-.content::-webkit-scrollbar-thumb {
-    background: #888; /* Màu nền của nút cuộn */
-    border-radius: 5px; /* Bo góc của nút cuộn */
+.product-image {
+  width: 100px; /* Đặt chiều rộng cố định cho hình ảnh */
+  height: 100px; /* Đặt chiều cao cố định cho hình ảnh */
+  object-fit: cover; /* Đảm bảo hình ảnh không bị kéo dãn */
+  margin-right: 10px;
 }
 
-.content::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Màu nền của nút cuộn khi di chuột vào */
+.product-name {
+  font-weight: bold;
 }
 
+.product-action {
+  display: none; /* Ẩn mặc định */
+  position: absolute; /* Định vị để hiển thị bên phải sản phẩm */
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Thêm bóng cho sản phẩm */
+}
 
-//css Ô ITEM TRONG TAB
-.list-item {
-    height: 100%;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .item {
-    width: calc(16.667% - 20px); /* Đặt kích thước cho ô item và cách nhau */
-    height: 120px;
-    margin: 10px;
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-    background-color: #f0f0f0;
-    text-align: center;
-    transition: transform 0.3s; /* Hiệu ứng chuyển đổi */
-  }
-  .item video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  
-  .item:hover {
-    transform: scale(1.05); /* Phóng to khi hover */
-  }
-  
-  .item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .item p {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    margin: 0;
-    padding: 5px;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    font-size: 14px;
-    opacity: 0; /* Ẩn mặc định */
-    transition: opacity 0.3s; /* Hiệu ứng chuyển đổi */
-  }
-  
-  .item:hover p {
-    opacity: 1; /* Hiển thị khi hover */
-  }
-  
-  //button 
-  .delete-button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    background: transparent;
-    font-size: 1.1rem;
-    padding: 6px;
-    color: black;
-    border: none;
-    cursor: pointer;
-    z-index: 1;
-    opacity: 0;
-    transition:ease-in-out 0.3s;
-    :hover {
-      scale: 1.1;
-    }
-  }
+.product-list li:hover .product-action {
+  display: flex; /* Hiển thị khi hover */
+}
 
-  .item:hover .delete-button {
-    opacity: 1;
-  }
+.product-action button {
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 5px; /* Khoảng cách giữa các nút */
+}
+
+/* Styles cho chi tiết sản phẩm */
+.product-detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.product-detail {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 70%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.product-detail-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.product-detail-image {
+  width: 70%;
+  padding-right: 20px;
+}
+
+.product-detail-image img {
+  width: 100%;
+  height: auto; /* Đảm bảo ảnh giữ tỷ lệ */
+  object-fit: cover; /* Đảm bảo ảnh không bị kéo dãn */
+}
+
+.product-detail-info {
+  width: 30%;
+}
+
+.product-detail-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+//css cho box adđ
+.product-add-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.product-add {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 60%;
+  max-width: 600px;
+  position: relative;
+}
+
+.product-add-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.product-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-add-form label {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-add-form input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.product-add-form input[type="file"] {
+  margin-top: 10px;
+}
+
+.product-image-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+.btn-add-product {
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 20px;
+}
+.boxproduct{    
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 400px;
+  justify-content: center;
+  padding: 20px;
+  border: 2px solid #ddd; /* Border for the container */
+  border-radius: 8px;
+  text-align: center;
+  margin: auto;
+}
+.iconproduct{
+  font-size: 4rem;
+  border-radius: 50%; /* Makes the container circular */
+  padding: 20px; /* Adjust size as needed */
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

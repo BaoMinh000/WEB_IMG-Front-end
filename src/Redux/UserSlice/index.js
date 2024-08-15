@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    allUsers: null,
+    allUsers: [],
     isFetching: false,
     error: false,
     userDetails: null,
@@ -59,6 +59,22 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.error = true;
     },
+    // Action to start creating a user
+    createUserStart: (state) => {
+      state.isFetching = true;
+      state.error = false;
+    },
+    // Action to handle successful creation of a user
+    createUserSuccess: (state, action) => {
+      state.isFetching = false;
+      state.allUsers = [...state.allUsers, action.payload];
+      state.error = false;
+    },
+    // Action to handle failed creation of a user
+    createUserFailure: (state) => {
+      state.isFetching = false;
+      state.error = true;
+    },
     // Action to start updating a user
     updateUserStart: (state) => {
       state.isFetching = true;
@@ -70,15 +86,26 @@ const userSlice = createSlice({
       // Update the user details
       state.userDetails = action.payload;
       // Update the user in allUsers if needed
-      if (state.allUsers) {
-        state.allUsers = state.allUsers.map(user =>
-          user.id === action.payload.id ? action.payload : user
-        );
-      }
+      state.allUsers = state.allUsers.map(user =>
+        user.id === action.payload.id ? action.payload : user
+      );
       state.error = false;
     },
     // Action to handle failed user update
     updateUserFailure: (state) => {
+      state.isFetching = false;
+      state.error = true;
+    },
+
+    addUserStart: (state) => {
+      state.isFetching = true;
+      state.error = false;
+    },
+    addUserSuccess: (state) => {
+      state.isFetching = false;
+      state.error = false;
+    },
+    addUserFailure: (state) => {
       state.isFetching = false;
       state.error = true;
     },
@@ -87,18 +114,17 @@ const userSlice = createSlice({
 
 // Export the actions
 export const {
-  usersStart,
-  usersSuccess,
-  usersFailure,
-  userDetailsStart,
-  userDetailsSuccess,
-  userDetailsFailure,
-  deleteUserStart,
-  deleteUserSuccess,
-  deleteUserFailure,
-  updateUserStart,
-  updateUserSuccess,
-  updateUserFailure,
+  usersStart,usersSuccess,usersFailure,
+
+  userDetailsStart,userDetailsSuccess,userDetailsFailure,
+
+  deleteUserStart,deleteUserSuccess,deleteUserFailure,
+  
+  createUserStart,createUserSuccess,createUserFailure,
+
+  updateUserStart,updateUserSuccess,updateUserFailure,
+
+  addUserStart, addUserSuccess, addUserFailure
 } = userSlice.actions;
 
 // Export the reducer

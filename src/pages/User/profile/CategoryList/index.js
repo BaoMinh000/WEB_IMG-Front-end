@@ -11,9 +11,9 @@ import { useSelector } from 'react-redux';
 const cx = classNames.bind(style);
 
 const CategoryList = ({ onSelectCategory }) => {
-  const [selectedCategory, setSelectedCategory] = useState('profile');
-  const user = useSelector((state) => state.auth.login.currentUser);
-
+  const [selectedCategory, setSelectedCategory] = useState('account');
+  const user = useSelector((state) => state.user?.userDetails);
+  const username = user?.data?.username;
   const handleSelectCategory = (category) => {
     onSelectCategory(category);
     setSelectedCategory(category);
@@ -28,21 +28,21 @@ const CategoryList = ({ onSelectCategory }) => {
             <FontAwesomeIcon icon={faPen} />
           </button>
         </div>
-        <h3 className={cx('user-name')}>{user.user.username}</h3>
+        <h3 className={cx('user-name')}>{username}</h3>
       </div>
       <ul className={cx('CategoryList')}>
         <li>
           <Link
-            to="#"
-            onClick={() => handleSelectCategory("profile")}
-            className={cx({ selected: selectedCategory === "profile" })}
+            to="#account"
+            onClick={() => handleSelectCategory("account")}
+            className={cx({ selected: selectedCategory === "account" })}
           >
             Account
           </Link>
         </li>
         <li>
           <Link
-            to="#"
+            to="#password"
             onClick={() => handleSelectCategory("password")}
             className={cx({ selected: selectedCategory === "password" })}
           >
@@ -51,7 +51,7 @@ const CategoryList = ({ onSelectCategory }) => {
         </li>
         <li>
           <Link
-            to="#"
+            to="#photo-gallery"
             onClick={() => handleSelectCategory("photo-gallery")}
             className={cx({ selected: selectedCategory === "photo-gallery" })}
           >
@@ -60,7 +60,7 @@ const CategoryList = ({ onSelectCategory }) => {
         </li>
         <li>
           <Link
-            to="#"
+            to="#payment-methods"
             onClick={() => handleSelectCategory("payment-methods")}
             className={cx({ selected: selectedCategory === "payment-methods" })}
           >
@@ -69,7 +69,7 @@ const CategoryList = ({ onSelectCategory }) => {
         </li>
         <li>
           <Link
-            to="#"
+            to="#settings"
             onClick={() => handleSelectCategory("settings")}
             className={cx({ selected: selectedCategory === "settings" })}
           >

@@ -7,7 +7,8 @@ import GlobalStyles from "./Component/GlobalStyles";
 
 import { Provider } from "react-redux";
 import store from "./Redux/store";
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 // Thư viện cho video và ảnh
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
@@ -15,9 +16,10 @@ Modal.setAppElement('#root');
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <GlobalStyles>
-      <App />
-    </GlobalStyles>
+      <GlobalStyles>
+        <App />
+        <ToastContainer />
+      </GlobalStyles>
   </Provider>
 );
 

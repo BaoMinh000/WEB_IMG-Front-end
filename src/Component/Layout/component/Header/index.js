@@ -31,7 +31,8 @@ function Header() {
     const navigate = useNavigate();
 
     const user = useSelector((state) => state.auth?.login?.currentUser);
-
+    const username = user?.user?.username;
+    
     const handleLoginClick = () => {
         setisOpen(true);
         setOnLogin(false);
@@ -178,7 +179,7 @@ function Header() {
                                                     className={cx("navigation__link-avatar")}
                                                 />
                                                 <span className={cx("navigation__link-name")}>
-                                                    {user.user.username}
+                                                    {username}
                                                 </span>
                                             </div>
                                             <MenuUser
@@ -189,20 +190,22 @@ function Header() {
                                     ) : (
                                         <li className={cx("navigation__item--btn")}>
                                             <div className={cx("navigation__item--btn")}>
-                                                <div
+                                                <a
+                                                    href="#login"
                                                     onClick={handleLoginClick}
                                                     className={cx("navigation__link", "navigation__link--btn")}
                                                 >
                                                     Đăng nhập
-                                                </div>
+                                                </a>
                                             </div>
                                             <div className={cx("navigation__item--btn")}>
-                                                <div
+                                                <a 
+                                                    href="#register"
                                                     onClick={handleRegisterClick}
                                                     className={cx("navigation__link", "navigation__link--btn")}
                                                 >
                                                     Đăng ký
-                                                </div>
+                                                </a >
                                             </div>
                                         </li>
                                     )}

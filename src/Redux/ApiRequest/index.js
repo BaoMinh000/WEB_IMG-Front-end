@@ -1,28 +1,18 @@
 import axios from "axios";
 
 import {
-    loginFailure,
-    loginStart,
-    loginSuccess,
-    registerStart,
-    registerSuccess,
-    registerFailure,
+    loginFailure,loginStart,loginSuccess,
+    registerStart,registerSuccess,registerFailure,
 } from "../authSlice";
 
 import {
-    usersStart,
-    usersSuccess,
-    usersFailure,
-    userDetailsStart,
-    userDetailsSuccess,
-    userDetailsFailure,
-    deleteUserStart,
-    deleteUserSuccess,
-    deleteUserFailure,
-    updateUserStart,
-    updateUserSuccess,
-    updateUserFailure
+    usersStart,usersSuccess,usersFailure,
+    userDetailsStart,userDetailsSuccess,userDetailsFailure,
+    deleteUserStart,deleteUserSuccess,deleteUserFailure,
+    updateUserStart,updateUserSuccess,updateUserFailure,
+    addUserStart,addUserSuccess,addUserFailure,
 } from "../UserSlice";
+import { toast } from "react-toastify";
 
 const URL_BE = process.env.REACT_APP_URL_BE;
 
@@ -39,7 +29,7 @@ export const loginUser = (user, setisOpen) => async (dispatch, navigate) => {
             //lưu thông tin user vào localStorage
             localStorage.setItem("user", JSON.stringify(res.data));
 
-            alert("Login successful!");
+            toast.success("Login successful!");
             setisOpen(false);
             navigate("/");
             //reload lại trang
@@ -47,13 +37,13 @@ export const loginUser = (user, setisOpen) => async (dispatch, navigate) => {
         } else {
             // Xử lý trường hợp phản hồi không thành công (vd: mã trạng thái không phải 200)
             dispatch(loginFailure());
-            alert("Error logging in");
+            toast.error("Login failed!");
         }
     } catch (err) {
         // Xử lý lỗi (vd: log lỗi hoặc hiển thị thông báo lỗi cho người dùng)
         console.error("Login failed:", err);
         dispatch(loginFailure());
-        alert("Login failed!");
+        toast.error("Login failed!");
     }
 };
 
@@ -64,12 +54,12 @@ export const registerUser = async (user, dispatch, navigate) => {
         if (res.status === 200) {
             // Xử lý dữ liệu phản hồi ở đây nếu cần
             dispatch(registerSuccess());
-            alert("Registration successful!");
-            // navigate("/login");
+            toast.success("Registration successful!");
+            // navigate("#login");
         } else {
             // Xử lý trường hợp phản hồi không thành công (vd: mã trạng thái không phải 201)
             dispatch(registerFailure());
-            alert("Registration failed!");
+            toast.error("Registration failed!");
         }
     } catch (err) {
         // Xử lý lỗi (vd: log lỗi hoặc hiển thị thông báo lỗi cho người dùng)
@@ -109,6 +99,25 @@ export const refreshAccessToken = async () => {
     }
 };
 
+export const addUser = async (user, dispatch) => {
+    dispatch(addUserStart());
+    try {
+        const res = await axios.post(`${URL_BE}/auth/register`, user);
+        if (res.status === 200) {
+            dispatch(addUserSuccess());
+            alert("User added successfully!");
+            // Thêm logic cập nhật danh sách người dùng nếu cần thiết
+        } else {
+            dispatch(addUserFailure());
+            alert("Failed to add user!");
+        }
+    } catch (err) {
+        console.error("Failed to add user:", err);
+        dispatch(addUserFailure());
+        alert("Failed to add user!");
+    }
+};
+
 export const getAllUsers = async (access_token, dispatch, axiosJWT) => {
     dispatch(usersStart());
     try {
@@ -142,7 +151,6 @@ export const getUserDetails = async (access_token, dispatch, id, axiosJWT) => {
         if (res.status === 200) {
             // Xử lý dữ liệu phản hồi ở đây nếu cần
             dispatch(userDetailsSuccess(res.data));
-            console.log('User Data:', res.data); // Debugging: Check the data structure
             return res.data; // Return data for use in the component
         } else {
             dispatch(userDetailsFailure());

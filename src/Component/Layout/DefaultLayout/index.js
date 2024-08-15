@@ -12,8 +12,8 @@ function DefaultLayout({ children }) {
             <Header className="header" />
             <div className="container" style={{padding:'0'}}>
                 <div className="row align-items-center" style={{width:'100%'}}>
-                    <div className="col-12" style={{paddingRight:'0', padddingleft:'0'}}>
-                        <div className={cx("content")}>
+                    <div className="col-12" style={{paddingRight:'0', padddingleft:'0', height: '100%'}}>
+                        <div className={cx("content")} style={{height:'100%'}}>
                             {children}
                         </div>
                     </div>
