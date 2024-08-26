@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import classNames from "classnames/bind";
 import style from "./PageListUser.module.scss";
-import { loginSuccess } from "../../../Redux/authSlice";
+import { loginSuccess } from "../../../Redux/Slice/authSlice";
 
 const cx = classNames.bind(style);
 

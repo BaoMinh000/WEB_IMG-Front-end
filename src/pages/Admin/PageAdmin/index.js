@@ -9,26 +9,32 @@ import { faFlag, faGear, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function Sidebar({ onSelect }) {
+function Sidebar({ onSelect, activeContent }) {
     return (
         <div className={cx('sidebar')}>
             <h2>Admin Dashboard</h2>
             <ul>
-                <li><a href="#dashboard" onClick={() => onSelect('dashboard')}>Dashboard</a></li>
-                <li>
+                <li className={cx({'dashboard-active': activeContent === 'dashboard'})}>
+                    <a href="#dashboard" onClick={() => onSelect('dashboard')}>Dashboard</a>
+                </li>
+                <li className={cx({'dashboard-active': activeContent === 'users'})}>
                     <a href="#users" onClick={() => onSelect('users')}>
                         <FontAwesomeIcon icon={faUser} style={{marginRight:'10px'}}/>
                         Users
                     </a>
                 </li>
-                <li><a href="#settings" onClick={() => onSelect('settings')}>
-                    <FontAwesomeIcon icon={faGear} style={{marginRight:'10px'}}/>
-                    Settings
-                </a></li>
-                <li><a href="#reports" onClick={() => onSelect('reports')}>
-                    <FontAwesomeIcon icon={faFlag} style={{marginRight:'10px'}}/>
-                    Reports
-                </a></li>
+                <li className={cx({'dashboard-active': activeContent === 'settings'})}>
+                    <a href="#settings" onClick={() => onSelect('settings')}>
+                        <FontAwesomeIcon icon={faGear} style={{marginRight:'10px'}}/>
+                        Settings
+                    </a>
+                </li>
+                <li className={cx({'dashboard-active': activeContent === 'reports'})}>
+                    <a href="#reports" onClick={() => onSelect('reports')}>
+                        <FontAwesomeIcon icon={faFlag} style={{marginRight:'10px'}}/>
+                        Reports
+                    </a>
+                </li>
             </ul>
         </div>
     );
@@ -100,7 +106,7 @@ function Pagemain() {
 
     return (
         <div className={cx('admin-container')}>
-            <Sidebar onSelect={setActiveContent} />
+            <Sidebar onSelect={setActiveContent} activeContent={activeContent} />
             <div className={cx('main-content')}>
                 <Header />
                 <div className={cx('content')}>

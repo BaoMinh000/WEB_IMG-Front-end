@@ -3,7 +3,7 @@ import axios from "axios";
 import {
     loginFailure,loginStart,loginSuccess,
     registerStart,registerSuccess,registerFailure,
-} from "../authSlice";
+} from "../Slice/authSlice";
 
 import {
     usersStart,usersSuccess,usersFailure,
@@ -11,7 +11,15 @@ import {
     deleteUserStart,deleteUserSuccess,deleteUserFailure,
     updateUserStart,updateUserSuccess,updateUserFailure,
     addUserStart,addUserSuccess,addUserFailure,
-} from "../UserSlice";
+} from "../Slice/userSlice";
+
+import{
+    fetchProductsStart,fetchProductsSuccess,fetchProductsFailure,
+    updateProductStart,updateProductSuccess,updateProductFailure,
+    getproductIdStart,getproductIdSuccess,getproductIdFailure
+    
+} from  "../Slice/productSlice";
+
 import { toast } from "react-toastify";
 
 const URL_BE = process.env.REACT_APP_URL_BE;
@@ -163,25 +171,25 @@ export const getUserDetails = async (access_token, dispatch, id, axiosJWT) => {
     }
 };
 
-//Update user information
-export const updateUser = async (access_token, dispatch, id, user, axiosJWT) => {
-    dispatch(updateUserStart());
-    try {
-        const res = await axiosJWT.put(`${URL_BE}/user/updateUser/${id}`, user, {
-            headers: {
-                token: `Bearer ${access_token}`, // Note the 'Bearer' prefix, if needed
-            },
-        });
-        if (res.status === 200) {
-            dispatch(updateUserSuccess(res.data)); 
-        } else {
-            dispatch(updateUserFailure());
-        }
-    } catch (err) {
-        console.error("User failed:", err);
-        dispatch(updateUserFailure());
-    }
-};
+// //Update user information
+// export const updateUser = async (access_token, dispatch, id, user, axiosJWT) => {
+//     dispatch(updateUserStart());
+//     try {
+//         const res = await axiosJWT.put(`${URL_BE}/user/updateUser/${id}`, user, {
+//             headers: {
+//                 token: `Bearer ${access_token}`, // Note the 'Bearer' prefix, if needed
+//             },
+//         });
+//         if (res.status === 200) {
+//             dispatch(updateUserSuccess(res.data)); 
+//         } else {
+//             dispatch(updateUserFailure());
+//         }
+//     } catch (err) {
+//         console.error("User failed:", err);
+//         dispatch(updateUserFailure());
+//     }
+// };
 
 
 export const DeleteUser = async (access_token, dispatch, id, axiosJWT) => {
@@ -208,46 +216,95 @@ export const DeleteUser = async (access_token, dispatch, id, axiosJWT) => {
     }
 };
 
-// export const uploadFile = async (file, dispatch, access_token, axiosJWT) => {
-//     dispatch(uploadFileStart());
-//     try {
-//         const res = await axiosJWT.post(`${URL_BE}/upload`, file, {
-//             headers: {
-//                 token: `${access_token}`,
-//             },
-//         });
-//         if (res.status === 201) {
-//             // Xử lý dữ liệu phản hồi ở đây nếu cần
-//             dispatch(uploadFileSuccess(res.data)); // Assuming res.data contains user data.
-//         } else {
-//             // Xử lý trường hợp phản hồi không thành công (vd: mã trạng thái không phải 201)
-//             dispatch(uploadFileFailure());
-//         }
-//     } catch (err) {
-//         // Xử lý lỗi (vd: log lỗi hoặc hiển thị thông báo lỗi cho người dùng)
-//         console.error("Upload failed:", err);
-//         dispatch(uploadFileFailure());
-//     }
-// };
-// export const getImage = async (access_token, dispatch, axiosJWT) => {
-//     dispatch(getImageStart());
-//     try {
-//         const res = await axiosJWT.get(`${URL_BE}/user/images`, {
-//             headers: {
-//                 token: `${access_token}`,
-//             },
-//         });
-//         if (res.status === 200) {
-//             // Xử lý dữ liệu phản hồi ở đây nếu cần
-//             dispatch(getImageSuccess(res.data)); // Assuming res.data contains user data.
-//         } else {
-//             // Xử lý trường hợp phản hồi không thành công (vd: mã trạng thái không phải 200)
-//             dispatch(getImageFailure());
-//         }
-//     } catch (err) {
-//         // Xử lý lỗi (vd: log lỗi hoặc hiển thị thông báo lỗi cho người dùng)
-//         console.error("Get image failed:", err);
-//         dispatch(getImageFailure());
-//     }
-// }
+//Get product by id
+export const getproductId = async (id, dispatch) => {
+    console.log("Get product by id:", id);
+    if(!id){
+        return;
+    }
+    dispatch(getproductIdStart());
+    try {
+        const res = await axios.get(`${URL_BE}/product/get-product/${id}`, {
 
+        });
+        if (res.status === 200) {
+            dispatch(getproductIdSuccess(res.data)); // Giả sử res.data chứa dữ liệu của sản phẩm.
+        } else {
+            dispatch(getproductIdFailure());
+        }
+    } catch (err) {
+        console.error("Failed to get product:", err);
+        dispatch(getproductIdFailure());
+    }
+};
+//Get all products
+export const getAllProductsUser = async (access_token, dispatch, axiosJWT) => {
+    dispatch(fetchProductsStart());
+    try {
+        const res = await axiosJWT.get(`${URL_BE}/product`, {
+            headers: {
+                token: `${access_token}`,
+            },
+        });
+        if (res.status === 200) {
+            // Xử lý dữ liệu phản hồi ở đây nếu cần
+            dispatch(fetchProductsSuccess(res.data)); // Assuming res.data contains user data.
+        } else {
+            // Xử lý trường hợp phản hồi không thành công (vd: mã trạng thái không phải 200)
+            dispatch(fetchProductsFailure());
+        }
+    } catch (err) {
+        // Xử lý lỗi (vd: log lỗi hoặc hiển thị thông báo lỗi cho người dùng)
+        console.error("User failed:", err);
+        dispatch(fetchProductsFailure());
+    }
+}
+
+export const updateUserProduct = async (access_token, id, product, dispatch, axiosJWT) => {
+    console.log("Updating product:", product);
+
+    // dispatch(updateProductStart());
+
+    try {
+        const res = await axiosJWT.put(`${URL_BE}/product/update-product/${id}`, product, {
+            headers: {
+                Authorization: access_token, // 'Authorization' is the standard header name
+            },
+        });
+
+        if (res.status === 200) {
+            // dispatch(updateProductSuccess(res.data)); 
+            toast.success("Product updated successfully!");
+        } else {
+            // dispatch(updateProductFailure());
+        }
+    } catch (err) {
+        console.error("Product update failed:", err);
+        // dispatch(updateProductFailure());
+    }
+};
+
+export const DeleteProduct = (id, access_token) => async (dispatch) => {
+    dispatch(deleteUserStart());
+    console.log("Delete: access_token", access_token);
+    console.log('Delete: id', id);
+    try {
+        const res = await axios.delete(`${URL_BE}/product/delete-product/${id}`, {
+            headers: {
+                token: `${access_token}`,
+            },
+        });
+
+        if (res.status === 200) {
+            dispatch(deleteUserSuccess(res.data));
+            toast.success("Product deleted successfully!");
+        } else {
+            toast.error("Failed to delete product!");
+            dispatch(deleteUserFailure());
+        }
+    } catch (err) {
+        console.error("Failed to delete product:", err);
+        toast.error("Failed to delete product!");
+        dispatch(deleteUserFailure());
+    }
+};

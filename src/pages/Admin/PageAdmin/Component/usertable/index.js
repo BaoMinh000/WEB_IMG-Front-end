@@ -4,6 +4,7 @@ import styles from './Pgae_Admin_User-table.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
+import axiosJWT from '../../../../../api/axiosJWT';
 const cx = classNames.bind(styles);
 
 function UsersContent() {
@@ -27,7 +28,7 @@ function UsersContent() {
   const fetchUsers = async () => {
     setIsFetching(true);
     try {
-      const response = await axios.get('http://localhost:5000/user/getAllUsers', {
+      const response = await axiosJWT.get('http://localhost:5000/user/getAllUsers', {
         headers: {
           token: accessToken,
         },

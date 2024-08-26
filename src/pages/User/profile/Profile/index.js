@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { userDetailsStart, userDetailsFailure} from '../../../../Redux/UserSlice';
+import { userDetailsStart, userDetailsFailure} from '../../../../Redux/Slice/userSlice';
 import { getUserDetails, updateUser } from '../../../../Redux/ApiRequest';
 import style from './Profile.module.scss';
 import classNames from 'classnames/bind';
 import axiosJWT from '../../../../api/axiosJWT';
 import axios from 'axios';
-import { loginSuccess } from '../../../../Redux/authSlice';
+import { loginSuccess } from '../../../../Redux/Slice/authSlice';
 import { toast } from 'react-toastify';
 
 const cx = classNames.bind(style);

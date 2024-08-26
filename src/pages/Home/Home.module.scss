@@ -127,3 +127,59 @@ body {
         }
     }
 }
+
+.pagination {
+    display: flex;
+    justify-content: center; // Căn giữa phần phân trang
+    margin: 20px 0; // Khoảng cách trên và dưới
+
+    .pagination-button {
+        background-color: #f0f0f0; // Màu nền của nút phân trang
+        border: 1px solid #ddd; // Đường viền của nút
+        border-radius: 4px; // Bo góc cho nút
+        padding: 8px 16px; // Khoảng cách bên trong nút
+        margin: 0 5px; // Khoảng cách giữa các nút
+        cursor: pointer; // Con trỏ khi rê chuột vào nút
+        transition: background-color 0.3s, color 0.3s; // Hiệu ứng chuyển màu khi rê chuột
+
+        &:hover {
+            background-color: #ddd; // Màu nền khi rê chuột vào nút
+        }
+
+        &.active {
+            background-color: #007bff; // Màu nền của nút đang chọn
+            color: white; // Màu chữ của nút đang chọn
+            border: 1px solid #007bff; // Đường viền của nút đang chọn
+        }
+
+        &:disabled {
+            background-color: #f5f5f5; // Màu nền của nút không hoạt động
+            color: #aaa; // Màu chữ của nút không hoạt động
+            cursor: not-allowed; // Con trỏ khi rê chuột vào nút không hoạt động
+        }
+    }
+}
+
+
+/* Container cho nút "Xem thêm" */
+.load-more-container {
+    display: flex;             /* Để căn chỉnh các phần tử bên trong */
+    justify-content: center;   /* Căn giữa các phần tử trong container */
+    margin-top: 20px;          /* Khoảng cách trên cùng */
+    padding: 10px;             /* Khoảng cách bên trong */
+}
+/* Nút "Xem thêm" */
+.load-more-btn {
+    background-color: #007bff; /* Màu nền của nút */
+    color: white;              /* Màu chữ */
+    border: none;              /* Không viền */
+    border-radius: 4px;        /* Bo tròn góc */
+    padding: 10px 20px;        /* Padding bên trong nút */
+    font-size: 16px;           /* Kích thước chữ */
+    cursor: pointer;           /* Con trỏ khi di chuột qua nút */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển đổi màu nền */
+}
+
+.load-more-btn:hover {
+    background-color: #0056b3; /* Màu nền khi hover */
+}

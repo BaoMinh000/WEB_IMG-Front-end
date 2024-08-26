@@ -1,20 +1,63 @@
 import classNames from "classnames/bind";
 import Tippy from "@tippyjs/react/headless";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import styles from "./Home.module.scss";
 import Searchbar from "../../Component/Popper/Search";
 import Properwrapper from "../../Component/Popper/Wapper";
 import Slider from "../../Component/Slider";
-import img from "../../Asset/Img/demo.jpg";
+import MediaPreview from "../../Component/Mediatype/index";
 const cx = classNames.bind(styles);
 
 function Home() {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [visibleProducts, setVisibleProducts] = useState(4); // State để quản lý số lượng sản phẩm được hiển thị ban đầu
     const navigate = useNavigate();
+    const URL_BE = process.env.REACT_APP_URL_BE;
+    
+    // Hàm xử lý sự kiện khi nhấp vào nút "Bắt đầu"
     function handleStartClick() {
-        navigate("/paypage"); // Chuyển hướng sang trang /paypage khi người dùng nhấp vào nút "Bắt đầu"
-        window.location.reload();
+        navigate("/paypage");
     }
+
+    // Hàm lấy tất cả sản phẩm từ API
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get(`${URL_BE}/product/get-all-products`, {
+                    params: {
+                        sortOrder: 'asc',
+                        sortField: 'name',
+                    },
+                });
+
+                // Cập nhật trạng thái với dữ liệu sản phẩm
+                setProducts(response.data.data);                
+            } catch (error) {
+                // Xử lý lỗi
+                setError(error.message);
+            } finally {
+                // Đặt trạng thái loading thành false khi hoàn tất
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []); // Chạy một lần khi component được mount
+
+    // Hàm để xử lý nút "Xem thêm"
+    const handleLoadMore = () => {
+        setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 12);
+    };
+
+    // Hàm xử lý khi nhấp vào sản phẩm
+    const handleProductClick = (productId) => {
+        navigate(`/product-detail`, {state: {productId}});
+    };
 
     return (
         <div className={cx("home")}>
@@ -35,16 +78,14 @@ function Home() {
 
             <div className={cx("banner")}>
                 <div className={cx("banner-layer")}>
-                    <div className={cx("navbar", "col-0")} style={{paddingLeft:'0'}}>
+                    <div className={cx("navbar", "col-0")} style={{ paddingLeft: '0' }}>
                         <Searchbar />
                     </div>
                     <div className={cx("banner-content")}>
                         <div className={cx("banner-title")}>
                             Generate your own image
                             <h1>Trở thành thành viên để sở hữu</h1>
-                            <p>
-                                Tải anh với chất lượng cao và ảnh không có logo
-                            </p>
+                            <p>Tải ảnh với chất lượng cao và ảnh không có logo</p>
                         </div>
                         <button
                             className={cx("start-btn")}
@@ -66,80 +107,28 @@ function Home() {
                 <div className={cx("Media_Directory-Title")}>
                     Find the right content for your projects
                 </div>
-                <div className="row" style={{padding:'12px'}}>
-                    <a href="/productDetail" className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
-                        <div className={cx("Media_Directory_Item")}>
+                <ul className="row" style={{ padding: '12px'}}>
+                    {products.slice(0, visibleProducts).map((product) => (
+                        <li 
+                            className="col-lg-3 col-md-6 col-sm-12" 
+                            style={{ paddingRight: '0', paddingLeft: '0' }} 
+                            key={product._id}
+                            onClick={() => handleProductClick(product._id)} // Thêm sự kiện onClick
+                        >
                             <div className={cx("Media_Directory_Item_img")}>
-                                <img src={img} alt="icon" />
+                                <MediaPreview product={product} />
                             </div>
-                            <div className={cx("Media_Directory_Item_Title")}>
-                                Ảnh
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="/" className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
-                        <div className={cx("Media_Directory_Item")}>
-                            <div className={cx("Media_Directory_Item_img")}>
-                                <img src={img} alt="icon" />
-                            </div>
-                            <div className={cx("Media_Directory_Item_Title")}>
-                                Video
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="/" className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
-                        <div className={cx("Media_Directory_Item")}>
-                            <div className={cx("Media_Directory_Item_img")}>
-                                <img src={img} alt="icon" />
-                            </div>
-                            <div className={cx("Media_Directory_Item_Title")}>
-                                Gif
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div className={cx("Media_Directory")} >
-                <div className={cx("Media_Directory-Title")}>
-                    Get free stock photos, illustrations and videos
-                </div>
-                <div className="row" style={{padding:'12px'}}>
-                    <div className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
-                        <div className={cx("Media_Directory_Item")}>
-                            <div className={cx("Media_Directory_Item_img")}>
-                                <img src={img} alt="icon" />
-                            </div>
-                            <div className={cx("Media_Directory_Item_Title")}>
-                                Ảnh
-                            </div>
-                        </div>
+                        </li>
+                    ))}
+                </ul>
+                {/* Nút Xem thêm */}
+                {visibleProducts < products.length && (
+                    <div className={cx("load-more-container")}>
+                        <button className={cx("load-more-btn")} onClick={handleLoadMore}>
+                            Xem thêm
+                        </button>
                     </div>
-
-                    <div className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}} >
-                        <div className={cx("Media_Directory_Item")}>
-                            <div className={cx("Media_Directory_Item_img")}>
-                                <img src={img} alt="icon" />
-                            </div>
-                            <div className={cx("Media_Directory_Item_Title")}>
-                                Video
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-lg-4 col-md-6 col-sm-12" style={{paddingRight:'0', paddingLeft:'0'}}>
-                        <div className={cx("Media_Directory_Item")}>
-                            <div className={cx("Media_Directory_Item_img")}>
-                                <img src={img} alt="icon" />
-                            </div>
-                            <div className={cx("Media_Directory_Item_Title")}>
-                                Gif
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     );

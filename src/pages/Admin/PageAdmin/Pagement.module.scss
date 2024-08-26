@@ -1,6 +1,6 @@
 .admin-container {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - 60px);
     background-color: #f0f2f5;
 }
 
@@ -36,7 +36,7 @@
     color: #fff;
     text-decoration: none;
     padding: 10px;
-    padding-left: 3099px;
+    padding-left: 30px;
     display: block;
     border-radius: 4px;
     transition: background-color 0.3s ease;
@@ -44,6 +44,21 @@
 }
 
 .sidebar ul li a:hover {
+    background-color: #495057;
+}
+.dashboard-active {
+    background-color: #495057;
+}
+
+.users-active {
+    background-color: #495057;
+}
+
+.settings-active {
+    background-color: #495057;
+}
+
+.reports-active {
     background-color: #495057;
 }
 

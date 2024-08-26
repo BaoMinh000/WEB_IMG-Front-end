@@ -6,7 +6,7 @@ import Upload from "../../../Popper/Upload";
 import MenuUser from "../../../Popper/MenuUser";
 import MenuMobi from "../../../MenuMobile";
 import { useSelector, useDispatch } from "react-redux";
-import { loginSuccess, loginFailure } from "../../../../Redux/authSlice/index.js";
+import { loginSuccess, loginFailure } from "../../../../Redux/Slice/authSlice";
 //libary
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";

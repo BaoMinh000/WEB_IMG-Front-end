@@ -1,36 +1,90 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./Search.module.scss";
 import classNames from "classnames/bind";
-
+import { useDispatch,useSelector } from "react-redux";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faTimes, faChevronDown, faChevronUp, faBorderAll } from "@fortawesome/free-solid-svg-icons";
 
+import { searchProduct, clearSearchValue, fetchProductsStart, fetchProductsSuccess, fetchProductsFailure} from "../../../Redux/Slice/productSlice";
 const cx = classNames.bind(styles);
 
 const Searchbar = () => {
-    const [searchValue, setSearchValue] = useState("");
+    // const [searchValue, setSearchValue] = useState(""); // State để lưu giá trị search khi sử dụng input
     const [showClearButton, setShowClearButton] = useState(false);
     const [showMenuCategory, setShowMenuCategory] = useState(false);
     const menuRef = useRef(null); // Ref để theo dõi menu
     const btnRef = useRef(null);   // Ref để theo dõi nút btn-type-search
+    const searchref = useRef(null); // Ref để theo dõi input search
+    const searchValueProduct = useSelector((state) => state?.product?.Search?.SearchValue);// lấy giá trị search từ store
+    const dispatch = useDispatch();
+    const navigate = useNavigate();  
 
+    const fetchProductAll = async (searchValue) => {
+        dispatch(fetchProductsStart());
+        let res;
+        
+        try {
+            if (searchValue) {
+                res = await axios.get(`http://localhost:5000/product/get-all-products`, {
+                    params: {
+                        name: searchValue,
+                    },
+                });
 
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("Search for:", searchValue);
-        setSearchValue("");
+            } else {
+                res = await axios.get(`http://localhost:5000/product/get-all-products`);
+            }
+            // console.log('res', res);
+            dispatch(fetchProductsSuccess(res.data));
+            return res.data;
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            dispatch(fetchProductsFailure());
+            throw error;
+        }
     };
+    
+
+    useEffect(() => {
+        if (searchref.current) {
+            console.log('run');
+            fetchProductAll(searchValueProduct);
+        }
+        searchref.current =true;
+    }, [searchValueProduct]);
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        // setSearchValue("");
+        // dispatch(clearSearchValue());
+        try {
+            // Wait for the search results to be fetched
+            const products = await fetchProductAll(searchValueProduct);
+            // Redirect to the new page with the search results
+            navigate('/search-results', { state: { products } });
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
+    // useEffect(() => {
+    //     console.log("Search for:", searchValue);
+    // }, [searchValue]);
 
     const handleClearInput = () => {
-        setSearchValue("");
+        // setSearchValue("");
         setShowClearButton(false);
+        dispatch(clearSearchValue());
     };
 
     const handleInputChange = (e) => {
-        setSearchValue(e.target.value);
+        // setSearchValue(e.target.value);
+        // console.log("Search for:", searchValue);
         setShowClearButton(e.target.value !== "");
+        dispatch(searchProduct(e.target.value));
     };
 
     const handleMenuCategory = () => {
@@ -89,7 +143,7 @@ const Searchbar = () => {
                         placeholder="Search..."
                         autoFocus
                         required
-                        value={searchValue}
+                        value={searchValueProduct}
                         onChange={handleInputChange}
                     />
                     <button className={cx("button-search")} type="submit">

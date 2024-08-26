@@ -18,7 +18,7 @@ const UserProfilePage = () => {
   const user = JSON.parse(localStorage.getItem('user')) || {};
   const userId = user.user?._id;
   return (
-    <div className={cx('container')} style={{padding:'0'}}>
+    <div className={cx('container')} style={{padding:'0', height:'100vh', minHeight:'700px'}}>
       <div className={cx('category-list', 'col-lg-3 col-md-5 col-3')}>
         <CategoryList onSelectCategory={handleCategorySelect} />
       </div>
