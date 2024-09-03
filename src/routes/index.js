@@ -16,12 +16,12 @@ const publicRoute = [
     { path: "/login", Component: LoginPage , AdminOnly: false},
     { path: "/search-results", Component: SearchResultsPage , AdminOnly: false},
     { path: "/checkout", Component: Checkout , AdminOnly: false},
+    { path: "/payPlans", Component: Paypage , AdminOnly: false},
 ];
 
 const privateRoute = [
     { path: "/system/admin", Component: PageAdmin, AdminOnly: true },
     { path: "/user/profile", Component: UserProfilePage, AdminOnly: false },
-    { path: "/paypage", Component: Paypage , AdminOnly: false},
 ];
 
 export { publicRoute, privateRoute };

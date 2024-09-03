@@ -393,3 +393,14 @@
 .confirm-button:hover {
   background-color: #008ba3;
 }
+
+.download-button{
+  background-color: #00acc1;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}

@@ -3,7 +3,8 @@ import Tippy from "@tippyjs/react/headless";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getPlanbyUserid } from "../../Redux/ApiRequest";
 import styles from "./Home.module.scss";
 import Searchbar from "../../Component/Popper/Search";
 import Properwrapper from "../../Component/Popper/Wapper";
@@ -12,18 +13,19 @@ import MediaPreview from "../../Component/Mediatype/index";
 const cx = classNames.bind(styles);
 
 function Home() {
+    const dispatch = useDispatch();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [visibleProducts, setVisibleProducts] = useState(4); // State để quản lý số lượng sản phẩm được hiển thị ban đầu
     const navigate = useNavigate();
     const URL_BE = process.env.REACT_APP_URL_BE;
-    
+    const userid = useSelector((state) => state.auth.login?.currentUser?.user?._id);
+    const payPlans = useSelector((state) => state.plan.get_plan?.data);
     // Hàm xử lý sự kiện khi nhấp vào nút "Bắt đầu"
     function handleStartClick() {
-        navigate("/paypage");
+        navigate("/payPlans");
     }
-
     // Hàm lấy tất cả sản phẩm từ API
     useEffect(() => {
         const fetchProducts = async () => {
@@ -58,6 +60,17 @@ function Home() {
     const handleProductClick = (productId) => {
         navigate(`/product-detail`, {state: {productId}});
     };
+    useEffect(() => {
+        if (!userid) {
+            return;
+        }
+        // Define an async function inside the useEffect to call the API
+        const fetchUserPlan = async () => {
+            await getPlanbyUserid(userid, dispatch);
+        };
+        // Call the function
+        fetchUserPlan()
+      }, [dispatch, userid]);
 
     return (
         <div className={cx("home")}>
@@ -81,20 +94,23 @@ function Home() {
                     <div className={cx("navbar", "col-0")} style={{ paddingLeft: '0' }}>
                         <Searchbar />
                     </div>
-                    <div className={cx("banner-content")}>
-                        <div className={cx("banner-title")}>
-                            Generate your own image
-                            <h1>Trở thành thành viên để sở hữu</h1>
-                            <p>Tải ảnh với chất lượng cao và ảnh không có logo</p>
+                    {!payPlans.length > 0 && (
+                        <div className={cx("banner-content")}>
+                            <div className={cx("banner-title")}>
+                                Generate your own image
+                                <h1>Trở thành thành viên để sở hữu</h1>
+                                <p>Tải ảnh với chất lượng cao và ảnh không có logo</p>
+                            </div>
+                            <button
+                                className={cx("start-btn")}
+                                style={{ color: "white" }}
+                                onClick={handleStartClick}
+                            >
+                                Bắt đầu
+                            </button>
                         </div>
-                        <button
-                            className={cx("start-btn")}
-                            style={{ color: "white" }}
-                            onClick={handleStartClick}
-                        >
-                            Bắt đầu
-                        </button>
-                    </div>
+                    )}
+
                 </div>
             </div>
 

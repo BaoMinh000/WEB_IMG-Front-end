@@ -1,5 +1,10 @@
 .search-results-page {
+    display: flex;
+    flex-direction: column;
     padding: 20px;
+    height: 100%;
+    max-height: auto;
+    overflow: auto;
 }
 
 .filter-bar {
@@ -17,6 +22,7 @@
 
 .products-grid {
     display: flex;
+    flex: 1;
 }
 
 .product-card {
@@ -27,7 +33,18 @@
     text-align: center;
     background-color: #fff;
 }
-
+.product-info {
+    h3{
+        overflow: hidden;          // Hide overflowed content
+        text-overflow: ellipsis;   // Add ellipsis for overflowed content
+        display: -webkit-box;      // Required for the line-clamp effect
+        -webkit-line-clamp: 1;     // Limit the text to 1 lines
+        -webkit-box-orient: vertical; // Set box orientation to vertical
+        line-height: 1.5;          // Adjust line height if needed
+        max-height: 3em;           // Adjust to match line height for 2 lines
+    }
+  }
+  
 .product-card img {
     max-width: 100%;
     height: auto;
@@ -46,18 +63,41 @@
     font-size: 14px;
 }
 
-/* Nút "Xem thêm" */
-.load-more-btn {
-    background-color: #007bff; /* Màu nền của nút */
-    color: white;              /* Màu chữ */
-    border: none;              /* Không viền */
-    border-radius: 4px;        /* Bo tròn góc */
-    padding: 10px 20px;        /* Padding bên trong nút */
-    font-size: 16px;           /* Kích thước chữ */
-    cursor: pointer;           /* Con trỏ khi di chuột qua nút */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển đổi màu nền */
-}
 
-.load-more-btn:hover {
-    background-color: #0056b3; /* Màu nền khi hover */
-}
+//pagination
+.pagination-bar {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  
+    .pagination-button {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fff;
+      color: #007bff;
+      padding: 10px 15px;
+      margin: 0 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s, color 0.3s;
+  
+      &.active {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+      }
+  
+      &:hover {
+        background-color: #f1f1f1;
+      }
+  
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    }
+  }
+  
+  .load-more-btn {
+    // existing styles if any
+  }

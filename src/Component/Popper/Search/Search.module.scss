@@ -22,13 +22,20 @@
 
   }
   .button-search{
+    position: absolute;
+    right: 0;
     margin-left: 12px;
     padding: 0 10px;
     font-size: 2rem;
     background: transparent;
+    background-color: transparent;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
   }
   .button-search:hover{
-    color: #03a3ff;
+    color: var(--primary-color);
+    scale: 1.1;
+    background-color: transparent;
   }
   .button-clear {
     position: absolute;

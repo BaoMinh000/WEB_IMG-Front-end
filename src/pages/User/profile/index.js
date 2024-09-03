@@ -6,7 +6,7 @@ import PaymentMethods from './PaymentMethods';
 import Password from './Password';
 import style from './Userprofile.module.scss';
 import classNames from 'classnames/bind';
-
+import CSVUploadAndChart from './UploadCSV';
 const cx = classNames.bind(style);
 
 const UserProfilePage = () => {
@@ -26,6 +26,7 @@ const UserProfilePage = () => {
         {selectedCategory === 'account' && <UserProfile accessToken={accessToken} userId={userId}/>}
         {selectedCategory === 'password' && <Password accessToken={accessToken} userId={userId}/>}
         {selectedCategory === 'photo-gallery' && <PhotoGallery />}
+        {selectedCategory === 'UploadCSV' && <CSVUploadAndChart/>}
         {selectedCategory === 'payment-methods' && <PaymentMethods />}
         {!selectedCategory && <h2>Please select a category from the list</h2>}
       </div>

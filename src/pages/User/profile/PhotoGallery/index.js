@@ -23,7 +23,7 @@ const PhotoGallery = () => {
     const token = localStorage.getItem('token');
     const [userid, setUserid] = useState('');
     const accessToken = localStorage.getItem('token');
-
+    const ispagephoto = true;
     const dispatch = useDispatch();
     useEffect(() => {
         // Lấy dữ liệu người dùng từ localStorage
@@ -48,7 +48,6 @@ const PhotoGallery = () => {
     }, [showAddProduct, selectedProduct]);
 
     const handleEditClick = (product) => {
-        console.log('Edit product:', product);
         setSelectedProduct(product);
     };
     const handdlepreview = (product) => {
@@ -56,6 +55,7 @@ const PhotoGallery = () => {
     };
 
     const handleDeleteClick = async (product) => {
+        
         // Hiển thị hộp thoại xác nhận trước khi thực hiện thao tác xóa
         const confirmMessage = `Bạn có chắc chắn muốn xóa sản phẩm "${product.name}"?`;
         if (window.confirm(confirmMessage)) {
@@ -134,16 +134,10 @@ const PhotoGallery = () => {
     const handleAddProductSubmit = async () => {
         try {
             // // Kiểm tra xem tất cả các trường bắt buộc đã được điền chưa
-            // if (!newProduct.name || !newProduct.type || !newProduct.path || !newProduct.category || !newProduct.image) {
-            //     alert('Vui lòng điền đầy đủ thông tin!');
-            //     if(!newProduct.path) alert('Vui lòng chọn hình ảnh!');
-            //     if(!newProduct.name) alert('Vui lòng điền tên sản phẩm!');
-            //     if(!newProduct.type) alert('Vui lòng điền loại sản phẩm!');
-            //     if(!newProduct.image) alert('Vui lòng điền file!');
-            //     if(!newProduct.category) alert('Vui lòng chọn danh mục!');
-            //     return;
-            // }
-            console.log('newProduct',newProduct);
+            if (!newProduct.name || !newProduct.type || !newProduct.description || !newProduct.image) {
+                toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
+                return;
+            }
             
             // Tạo đối tượng FormData để gửi dữ liệu sản phẩm mới
             const formData = new FormData();
@@ -153,10 +147,7 @@ const PhotoGallery = () => {
             formData.append('image', newProduct.image); // Thêm file hình ảnh vào FormData
             formData.append('category', newProduct.category);
             formData.append('price', newProduct.price);
-            // //log formData
-            // for (var pair of formData.entries()) {
-            //     console.log(pair[0]+ ', ' + pair[1]);
-            // }
+
 
             console.log('Sending form data to server...');
             // Gửi dữ liệu sản phẩm mới tới server
@@ -166,7 +157,6 @@ const PhotoGallery = () => {
                     'Authorization': token,
                 },
             });
-            console.log('Server response:', response);
             // Kiểm tra phản hồi từ server
             if (response.status === 201) {
                 toast.success('Thêm sản phẩm thành công!');
@@ -182,7 +172,6 @@ const PhotoGallery = () => {
                         path: addedProduct.path,
                     }
                 ]);
-                console.log('addedProduct',addedProduct);
 
                 // Đóng form thêm sản phẩm và reset dữ liệu
                 handleCloseAddProduct();
@@ -279,7 +268,7 @@ const PhotoGallery = () => {
                         products.map((product) => (
                             <li key={product.id ? product.id : product.name} className={cx('product-item')}>
                                 <div className={cx('product-info')}>
-                                    <MediaPreview product={product} />
+                                    <MediaPreview product={product} ispagephoto={ispagephoto}/>
                                 </div>
                                 <div className={cx('product-action')}>
                                     <button className={cx('btn-edit')} onClick={() => handleEditClick(product)}>
@@ -494,10 +483,11 @@ const PhotoGallery = () => {
                                 {newProduct.path && <img src={newProduct.path} alt="Preview" className={cx('product-image-preview')} />}
                             </label>
                             
-                            <div className={cx('buttons-row')}>
+                            <div className={cx('buttons-row')} style={{paddingBottom:'32px'}}>
                                 <button className={cx('btn-cancel')} onClick={handleCloseAddProduct}>Cancel</button>
                                 <button className={cx('btn-add-product')} onClick={handleAddProductSubmit}>Save</button>
                             </div>
+                            
                     </div>
 
                     </div>

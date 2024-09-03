@@ -20,6 +20,11 @@ import{
     
 } from  "../Slice/productSlice";
 
+import {
+    getPlanIdStart,
+    getPlanIdSuccess,
+    getPlanIdFailure,
+} from "../Slice/PlanSlice";
 import { toast } from "react-toastify";
 
 const URL_BE = process.env.REACT_APP_URL_BE;
@@ -126,6 +131,23 @@ export const addUser = async (user, dispatch) => {
     }
 };
 
+export const getAuthorbyId = async (id, dispatch) => {
+    dispatch(userDetailsStart());
+    try {
+        const res = await axios.get(`${URL_BE}/user/AuthorId/${id}`);
+        if (res.status === 200) {
+            dispatch(userDetailsSuccess(res.data));
+            return res.data; // Return data for use in the component
+        } else {
+            dispatch(userDetailsFailure());
+            throw new Error(`Unexpected status code: ${res.status}`);
+        }
+    } catch (err) {
+        console.error("Failed to get user:", err);
+        dispatch(userDetailsFailure());
+        throw err;
+    }
+}
 export const getAllUsers = async (access_token, dispatch, axiosJWT) => {
     dispatch(usersStart());
     try {
@@ -218,7 +240,6 @@ export const DeleteUser = async (access_token, dispatch, id, axiosJWT) => {
 
 //Get product by id
 export const getproductId = async (id, dispatch) => {
-    console.log("Get product by id:", id);
     if(!id){
         return;
     }
@@ -306,5 +327,49 @@ export const DeleteProduct = (id, access_token) => async (dispatch) => {
         console.error("Failed to delete product:", err);
         toast.error("Failed to delete product!");
         dispatch(deleteUserFailure());
+    }
+};
+
+export const getPlanid = async (id, dispatch) => {
+    dispatch(getPlanIdStart());
+    try {
+        const res = await axios.get(`${URL_BE}/plans/get_plan/${id}`);
+        if (res.status === 200) {
+            dispatch(getPlanIdSuccess(res.data));
+        } else {
+            dispatch(getPlanIdFailure());
+        }
+    } catch (err) {
+        console.error("Failed to get plan:", err);
+        dispatch(getPlanIdFailure());
+    }
+}
+
+export const getPlanbyUserid = async (id, dispatch) => {
+    dispatch(getPlanIdStart());
+    try {
+        const res = await axios.get(`${URL_BE}/plans/get_plan_by_user/${id}`);
+        if (res.status === 200) {
+            dispatch(getPlanIdSuccess(res.data));
+        } else {
+            dispatch(getPlanIdFailure());
+        }
+    } catch (err) {
+        console.error("Failed to get plan:", err);
+        dispatch(getPlanIdFailure());
+    }
+}
+
+export const buy_product_by_plan = async (product, userId) => {
+    try {
+        const res = await axios.post(`${URL_BE}/plans/buy_product_by_plan`, { product, userId });
+        if (res.status === 201) {  // Sử dụng mã 201 cho yêu cầu thành công
+            toast.success("Product purchased successfully!");
+        } else {
+            toast.error("Failed to purchase product!");
+        }
+    } catch (err) {
+        console.error("Failed to purchase product:", err.response ? err.response.data : err.message);
+        toast.error("Failed to purchase product!");
     }
 };

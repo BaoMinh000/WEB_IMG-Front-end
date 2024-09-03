@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userDetailsStart, userDetailsFailure} from '../../../../Redux/Slice/userSlice';
-import { getUserDetails, updateUser } from '../../../../Redux/ApiRequest';
+import { getUserDetails, updateUser, getPlanbyUserid  } from '../../../../Redux/ApiRequest';
 import style from './Profile.module.scss';
 import classNames from 'classnames/bind';
 import axiosJWT from '../../../../api/axiosJWT';
@@ -16,6 +16,9 @@ const UserProfile = ({accessToken, userId}) => {
   const [userData, setUserData] = useState({});
   const userDetails = useSelector((state) => state.user?.userDetails);
   const isFetching = useSelector((state) => state.user?.isFetching);
+  const planData  = useSelector((state) => state.plan.get_plan?.data);
+  console.log('Plan:', planData );
+  
   const error = useSelector((state) => state.user.error);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -89,12 +92,28 @@ const UserProfile = ({accessToken, userId}) => {
         console.error('Error updating user details:', err);
         toast.error('Update user failed');
     }
-};
+  };
 
+  //
+  useEffect(() => {
+    if (!userId) {
+        return;
+    }
+
+    // Define an async function inside the useEffect to call the API
+    const fetchUserPlan = async () => {
+        await getPlanbyUserid(userId, dispatch);
+    };
+
+    // Call the function
+    fetchUserPlan();
+
+  }, [dispatch, userId]);
 
   if (!user || !user.user) {
     return <div>Loading...</div>;
-  }
+  };
+
 
   return (
     <div>
@@ -181,6 +200,34 @@ const UserProfile = ({accessToken, userId}) => {
             readOnly={!isEditing}
           />
         </div>
+        {planData && planData.length > 0 && (
+          planData.map((plan, index) => (
+            <div key={index} style={{width: '100%', display: 'flex'}}>
+              <div className={cx("form-group")}>
+                <label className={cx("form-label")} htmlFor="plan">Plan</label>
+                <input
+                  id="plan"
+                  type="text"
+                  className={cx("form-control")}
+                  value={plan.plan_type}
+                  readOnly
+                />
+              </div>
+              <div className={cx("form-group")}>
+                <label className={cx("form-label")} htmlFor="purchases_remaining">Purchases Remaining</label>
+                <input
+                  id="purchases_remaining"
+                  type="text"
+                  className={cx("form-control")}
+                  value={plan.purchases_remaining}
+                  readOnly
+                />
+
+              </div>
+            </div>
+          ))
+        )}
+
       </div>
       {isEditing && (
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '14px' }}>

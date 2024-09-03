@@ -11,6 +11,9 @@ const productSlice = createSlice({
         },
         products: {
             list: [],
+            total: 0,
+            currentPage: null,
+            totalPages: null,
             isFetching: false,
             error: false,
         },
@@ -55,7 +58,10 @@ const productSlice = createSlice({
         },
         fetchProductsSuccess: (state, action) => {
             state.products.isFetching = false;
-            state.products.list = action.payload;
+            state.products.list = action.payload.data;
+            state.products.total = action.payload.total;
+            state.products.currentPage = action.payload.pageCurrent;
+            state.products.totalPages = action.payload.totalPage;
             state.products.error = false;
         },
         fetchProductsFailure: (state) => {

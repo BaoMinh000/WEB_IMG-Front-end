@@ -10,15 +10,18 @@ import { loginSuccess, loginFailure } from "../../../../Redux/Slice/authSlice";
 //libary
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-import { jwtDecode } from 'jwt-decode';
-import React, { useState, useEffect, useRef  } from "react";
+import React, { useState, useEffect  } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const decodeToken = (token) => JSON.parse(atob(token.split('.')[1]));
+
+const getImageUrl = (path) => {
+    const normalizedPath = path?.replace(/\\/g, "/"); // Chuyển đổi gạch chéo ngược thành gạch chéo
+    return `http://localhost:5000${normalizedPath}`; // Thay đổi URL này theo đường dẫn của server
+  };
 
 function Header() {
     const [isOpen, setisOpen] = useState(false);
@@ -31,8 +34,8 @@ function Header() {
     const navigate = useNavigate();
 
     const user = useSelector((state) => state.auth?.login?.currentUser);
+    const Avatar = user?.user?.avatar;
     const username = user?.user?.username;
-    
     const handleLoginClick = () => {
         setisOpen(true);
         setOnLogin(false);
@@ -89,7 +92,10 @@ function Header() {
         // Dispatch login failure action
         dispatch(loginFailure());
     };
-
+    const getImageUrl = (path) => {
+        const normalizedPath = path?.replace(/\\/g, "/"); // Chuyển đổi gạch chéo ngược thành gạch chéo
+        return `http://localhost:5000${normalizedPath}`; // Thay đổi URL này theo đường dẫn của server
+      };
     return (
         <header className={cx("header")}>
             <div className="container" style={{padding:'0'}}>
@@ -120,7 +126,7 @@ function Header() {
                                     </li>
                                     <li className={cx("navigation__item")}>
                                         <Link
-                                            to="/image"
+                                            to="/search-results"
                                             className={cx("navigation__link")}
                                         >
                                             Ảnh
@@ -150,7 +156,7 @@ function Header() {
                         <div className={cx("actions")}>
                             <div className={cx("navigation")} style={{ width: "100%" }}>
                                 <ul className={cx("navigation__list", "d-flex", "justify-content-between")} style={{marginBottom: '0'}}>
-                                    <li className={cx("navigation__item--btn")}>
+                                    {/* <li className={cx("navigation__item--btn")}>
                                         <div
                                             className={cx(
                                                 "navigation__link",
@@ -164,7 +170,7 @@ function Header() {
                                             />
                                             Upload
                                         </div>
-                                    </li>
+                                    </li> */}
                                     {user ? (
                                         <div
                                             className={cx("navigation__item--btn", "navigation__item--btn--logged")}
@@ -174,7 +180,7 @@ function Header() {
                                                 onClick={() => setShowMenuUser(!ShowMenuUser)}
                                             >
                                                 <img
-                                                    src={Logo}
+                                                    src={getImageUrl(Avatar)}
                                                     alt="avatar"
                                                     className={cx("navigation__link-avatar")}
                                                 />

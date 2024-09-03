@@ -3,28 +3,35 @@ import { useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './SearchResultsPage.module.scss'; // Import the CSS module
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-
+import axios from 'axios'; // Import axios for API calls
 import Loading from '../../Component/Loading/index'; // Import the Loading component
-const cx = classNames.bind(styles); // Bind the styles to cx
+import { fetchProductsStart, fetchProductsSuccess, fetchProductsFailure } from '../../Redux/Slice/productSlice'; // Import actions
+import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch and useSelector
+import { useNavigate } from "react-router-dom";
+const cx = classNames.bind(styles);
+
+const categoriesimg = ['Nature', 'Animals', 'People', 'Tech', 'Architecture', 'Food', 'Travel', 'Fashion', 'Health', 'Art', 'Business', 'Music', 'Sports', 'Fitness', 'Education', 'Science', 'Transportation', 'Religion', 'History', 'Space', 'Other'];
+
+const contentTypes = ['Image', 'Video', 'Gif'];
 
 const SearchResultsPage = () => {
-    const location = useLocation();
-    const products = location.state?.products || []; // Ensure products is an array
-    const [filteredProducts, setFilteredProducts] = useState(products);
-    const [visibleProducts, setVisibleProducts] = useState(24); // State để quản lý số lượng sản phẩm được hiển thị ban đầu
-    const [isLoading, setIsLoading] = useState(false); // Start with no loading
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const products = useSelector((state) => state.product.products.list); // Get products from Redux store
+    const totalPages = useSelector((state) => state.product.products?.totalPages); // Get total pages from Redux store
+    const isLoading = useSelector((state) => state.product.products?.isFetching); // Get loading state from Redux store
+    const [currentPage, setCurrentPage] = useState(useSelector((state) => state.product.products?.currentPage));
     const [filterCriteria, setFilterCriteria] = useState({
         name: "",
         category: "",
+        type: "image",
     });
 
-    // Function to normalize the image path
     const getImageUrl = (path) => {
         const normalizedPath = path.replace(/\\/g, "/");
         return `${process.env.REACT_APP_URL_BE}/${normalizedPath}`;
     };
 
-    // Handle filter changes
     const handleFilterChange = (e) => {
         setFilterCriteria({
             ...filterCriteria,
@@ -32,36 +39,35 @@ const SearchResultsPage = () => {
         });
     };
 
-    // Hàm để xử lý nút "Xem thêm"
-    const handleLoadMore = () => {
-        setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 12);
+    const fetchProducts = async (page) => {
+        dispatch(fetchProductsStart());
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_URL_BE}/product/get-all-products`, {
+                params: {
+                    sortOrder: 'asc',
+                    sortField: 'name',
+                    category: filterCriteria.category === 'empty' ? '' : filterCriteria.category,
+                    name: filterCriteria.name,
+                    type: filterCriteria.type === 'empty' ? '' : filterCriteria.type,
+                    limit: 12, // Adjust limit if needed
+                    page: page,
+                },
+            });
+
+            dispatch(fetchProductsSuccess(response.data));
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            dispatch(fetchProductsFailure());
+        }
     };
 
-    // Delay before applying filters (debounce effect)
     useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            setIsLoading(true); // Set loading to true before applying filter
+        fetchProducts(currentPage);
+    }, [filterCriteria, currentPage]);
 
-            // Simulate a 1-second loading delay before updating filtered products
-            const loadingTimeout = setTimeout(() => {
-                const filtered = products.data.filter(product => {
-                    const productName = product.name || ""; // Default to empty string if name is undefined
-                    const productCategory = product.category || ""; // Default to empty string if category is undefined
-                    return (
-                        productName.toLowerCase().includes(filterCriteria.name.toLowerCase()) &&
-                        productCategory.toLowerCase().includes(filterCriteria.category.toLowerCase())
-                    );
-                });
-                setFilteredProducts(filtered);
-                setIsLoading(false); // Set loading to false after filtering and delay
-            }, 1000); // 1 second loading delay
-
-            return () => clearTimeout(loadingTimeout); // Cleanup the loading timeout if filterCriteria changes
-        }, 1000); // 1 second delay for debounce
-
-        return () => clearTimeout(delayDebounceFn); // Cleanup debounce timeout if filterCriteria changes
-    }, [filterCriteria, products]);
-
+    const handleProductClick = (productId) => {
+        navigate(`/product-detail`, {state: {productId}});
+    };
     return (
         <div className={cx('search-results-page')}>
             <h1>Search Results</h1>
@@ -78,24 +84,51 @@ const SearchResultsPage = () => {
                     value={filterCriteria.category}
                     onChange={handleFilterChange}
                 >
-                    <option value="">Select a category...</option>
-                    <option value="category1">Category 1</option>
-                    <option value="category2">Category 2</option>
-                    <option value="category3">Category 3</option>
-                    {/* Thêm các option khác tương ứng với các category */}
+                    <option value='empty'>
+                        Select category
+                    </option>
+                    {categoriesimg.map((category, index) => (
+                        <option key={index} value={category}>
+                            {category}
+                        </option>
+                    ))}
                 </select>
-
-                {/* Add more filters as needed */}
+                <select
+                    name="type"
+                    value={filterCriteria.type}
+                    onChange={handleFilterChange}
+                >
+                    <option value='empty'>
+                        Select type
+                    </option>
+                    {contentTypes.map((type, index) => (
+                        <option key={index} value={type}>
+                            {type}
+                        </option>
+                    ))}
+                </select>
             </div>
             <div className={cx('products-grid', 'row')}>
                 <Loading isLoading={isLoading}>
-                    {filteredProducts.length > 0 ? (
+                    {products.length > 0 ? (
                         <>
-                            {filteredProducts.slice(0, visibleProducts).map(product => (
-                                <div key={product._id} className="col-md-4 col-lg-3 mb-4">
+                            {products.map(product => (
+                                <div key={product._id} className="col-md-4 col-lg-3 mb-4" style={{maxHeight:'320px'}} onClick={() => handleProductClick(product._id)}>
                                     <div className={cx('product-card')}>
-                                        <img src={getImageUrl(product.path)} alt={product.name} 
-                                            className="img-fluid" />
+                                        {product.type.toLowerCase().startsWith('image') ? (
+                                            <img src={getImageUrl(product.path)} alt={product.name} className="img-fluid" style={{flex:'1 1'}} />
+                                        ) : (
+                                            <video
+                                                style={{ width: '100%', height: 'auto' }}
+                                                controls={false}      // Tắt các điều khiển của video
+                                                autoPlay={false}      // Video không tự động phát
+                                                loop={false}          // Video không phát lại liên tục
+                                                muted={true}          // Video không phát âm thanh
+                                                playsInline           // Video không mở full-screen trên di động
+                                            >
+                                                <source src={getImageUrl(product.path)} type="video/mp4" />
+                                            </video>
+                                        )}
                                         <div className={cx('product-info')}>
                                             <h3>{product.name}</h3>
                                             <p>{product.category}</p>
@@ -103,21 +136,25 @@ const SearchResultsPage = () => {
                                     </div>
                                 </div>
                             ))}
-                            {/* Nút Xem thêm */}
-                            {visibleProducts < filteredProducts.length && (
-                                <div className={cx("load-more-container")}>
-                                    <button className={cx("load-more-btn")} onClick={handleLoadMore}>
-                                        Xem thêm
-                                    </button>
-                                </div>
-                            )}
                         </>
                     ) : (
                         <p>No products found</p>
                     )}
                 </Loading>
             </div>
-        </div>
+            {/* Pagination Controls */}
+            <div className={cx('pagination-bar')}>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                            key={index}
+                            className={cx('pagination-button', { active: index + 1 === currentPage })}
+                            onClick={() => setCurrentPage(index + 1)}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                </div>
+            </div>
     );
 };
 

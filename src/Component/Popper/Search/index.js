@@ -28,14 +28,14 @@ const Searchbar = () => {
         
         try {
             if (searchValue) {
-                res = await axios.get(`http://localhost:5000/product/get-all-products`, {
+                res = await axios.get(`${process.env.REACT_APP_URL_BE}/product/get-all-products`, {
                     params: {
                         name: searchValue,
                     },
                 });
 
             } else {
-                res = await axios.get(`http://localhost:5000/product/get-all-products`);
+                res = await axios.get(`${process.env.REACT_APP_URL_BE}/product/get-all-products`);
             }
             // console.log('res', res);
             dispatch(fetchProductsSuccess(res.data));

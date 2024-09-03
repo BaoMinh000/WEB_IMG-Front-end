@@ -1,0 +1,107 @@
+.container{
+  display:  flex;
+  flex-direction: column;
+  width: 100%;
+
+}
+.uploadContainer {
+  margin-bottom: 20px;  
+}
+
+.uploadContainer label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 8px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.inputFile {
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 12px; /* Bo tròn viền */
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  box-sizing: border-box;
+  cursor: pointer; /* Thay đổi con trỏ khi hover */
+}
+
+.inputFile:focus {
+  border-color: #007bff; /* Thay đổi màu viền khi ô được chọn */
+  outline: none; /* Loại bỏ viền mặc định của trình duyệt */
+}
+
+.selectContainer {
+  display: flex; /* Sắp xếp các phần tử theo hàng */
+  gap: 20px; /* Khoảng cách giữa các phần tử */
+  margin-bottom: 20px; /* Khoảng cách dưới cùng */
+}
+
+.selectContainer > div {
+  flex: 1; /* Phân phối không gian đều giữa các phần tử */
+}
+
+.selectContainer label {
+  display: block; /* Đặt label thành khối để chiếm toàn bộ chiều rộng */
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px; /* Khoảng cách dưới cùng của label */
+  color: #333;
+}
+
+.select {
+  width: 100%; /* Chiều rộng của ô select chiếm toàn bộ phần tử chứa */
+  padding: 8px;
+  border: 2px solid #ccc;
+  font-size: 1.2rem;
+  border-radius: 8px; /* Bo tròn viền */
+  background-color: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+  cursor: pointer; /* Thay đổi con trỏ khi hover */
+  & option{
+    padding: 4px;
+  }
+}
+
+.select:focus {
+  border-color: #007bff; /* Thay đổi màu viền khi ô select được chọn */
+  outline: none; /* Loại bỏ viền mặc định của trình duyệt */
+}
+
+.chartContainer{
+  max-height: 500px;
+}
+
+//btn export 
+.exportButton{
+  font-size: 1.2rem;
+  border-radius: 4px;
+  background-color: #fdfdfd;
+  padding: 4px 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin: 12px 0 22px 0;
+}
+.exportButton:hover{
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+}
+
+.empty-chart-box {
+  border: 2px dashed #ccc; /* Dashed border style */
+  background-color: #f9f9f9; /* Light gray background */
+  padding: 20px; /* Padding inside the box */
+  min-height: 250px; /* Minimum height of the box */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.empty-chart-box h3 {
+  margin-bottom: 10px; /* Space below the heading */
+}
+
+.empty-chart-box p {
+  color: #666; /* Gray color for the text */
+}

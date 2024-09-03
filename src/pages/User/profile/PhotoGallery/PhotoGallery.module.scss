@@ -62,6 +62,9 @@
 }
 
 .product-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%; /* Đặt chiều rộng cố định cho hình ảnh */
   height: 100%; /* Đặt chiều cao cố định cho hình ảnh */
   object-fit: cover; /* Đảm bảo hình ảnh không bị kéo dãn */
@@ -241,15 +244,31 @@
 }
 
 .product-add {
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow-x: hidden; /* Ẩn cuộn ngang */
+  overflow-y: auto;   /* Cho phép cuộn dọc khi nội dung vượt quá chiều cao */
   background: #fff;
   border-radius: 8px;
   padding: 20px;
-  width: 60vW;
+  width: 60vw;        /* Chú ý chữ v và W trong vw */
   height: 80vh;
-  max-height: 550px;
+  max-height: 550px;  /* Giới hạn chiều cao tối đa */
   position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng để hiển thị rõ hơn */
+}
+
+/* Tùy chỉnh thanh cuộn cho WebKit (Chrome, Safari) */
+.product-add::-webkit-scrollbar {
+  width: 4px; /* Độ rộng của thanh cuộn */
+}
+
+.product-add::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Màu của thanh kéo */
+  border-radius: 4px; /* Bo tròn thanh kéo */
+}
+
+.product-add::-webkit-scrollbar-track {
+  background: transparent; /* Màu nền của đường cuộn */
+  
 }
 
 .product-add-title {

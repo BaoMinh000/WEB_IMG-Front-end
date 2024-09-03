@@ -2,11 +2,11 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './CheckoutPage.module.scss'; // Giả sử bạn có file CSS riêng
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { getproductId } from '../../Redux/ApiRequest';
+import { getproductId, getPlanid } from '../../Redux/ApiRequest';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MediaPreview from '../../Component/Mediatype';
-import { PayPalButton } from "react-paypal-button-v2";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { getConfig } from '../../Service/paymentService';
 
 const cx = classNames.bind(styles);
@@ -16,10 +16,18 @@ function Checkout() {
     const dispatch = useDispatch();
     const navigate = useNavigate(); 
     const product = useSelector((state) => state.product?.get_product?.data?.product_info);
+    const plan = useSelector((state) => state.plan?.get_plan?.data);
+    console.log('plan', plan);
+    
     const [sdkReady, setSdkReady] = useState(false);
-    const { productId, price } = location.state || {};
+    const { productId, price, name, planid } = location.state || {};
     const product_name = product?.name;
+    let discount = 0;
     console.log('productId', productId);
+    console.log('planid', planid);
+    // Xử lý dữ liệu dựa trên điều kiện
+    const productInfo = productId ? product : null;
+    const planInfo = planid ? plan : null;
 
     const user = localStorage.getItem('user');
     const user_id = JSON.parse(user)?.user?._id;
@@ -47,7 +55,15 @@ function Checkout() {
             
         }
     }, []);
-    
+    const initialOptions = {
+        "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
+        currency: "USD"
+    };
+    console.log('initialOptions', initialOptions);
+    console.log('PayPal Client ID:', process.env.REACT_APP_PAYPAL_CLIENT_ID);
+    console.log(process.env.REACT_APP_URL_BE);
+
+
     // Hàm tạo đơn hàng
     const createOrder = async (data, actions) => {
         console.log('product',product);
@@ -62,9 +78,10 @@ function Checkout() {
             body: JSON.stringify({
               items: [
                 {
-                    name: product.name,  // Tên sản phẩm
+                    name: product_name  || name,  // Tên sản phẩm
                     quantity: 1,  // Số lượng
-                    product: product,  // Thông tin sản phẩm
+                    product: productInfo,  // Thông tin sản phẩm
+                    plan: planInfo,  // Thông tin gói dịch vụ
                 },
               ],
               user_Id: user_id,
@@ -127,7 +144,9 @@ function Checkout() {
             alert('Error capturing order');
         }
     };
-    
+    const onError = (error) => {
+        alert('Error: ' + error.message);
+      };
     // Hàm cập nhật thông tin sản phẩm sau khi thanh toán
     const updateUserProducts = async (user, product) => {
         try {
@@ -159,6 +178,8 @@ function Checkout() {
     useEffect(() => {
         if (productId) {
             getproductId(productId, dispatch);
+        }else if (planid){
+            getPlanid(planid, dispatch);
         }
     }, [productId, dispatch]);
 
@@ -172,7 +193,11 @@ function Checkout() {
                     <hr className={cx('left-hr')} />
                     <div className={cx('home-product-list')}>
                         <div className={cx('home-product-item')}>
-                            <MediaPreview product={product} />
+                            {name ? (
+                                name
+                            ):(
+                                <MediaPreview product={product} />
+                            )}
                         </div>
                     </div>
                     <hr className={cx('left-hr')} />
@@ -192,16 +217,16 @@ function Checkout() {
                         <table className={cx('table')}>
                             <tbody>
                                 <tr>
-                                    <td>{product_name}</td>
+                                    <td>{product_name || name}</td>
                                     <td className={cx('price')}>{price}</td>
                                 </tr>
                                 <tr>
                                     <td>Discount</td>
-                                    <td className={cx('price')}>0.00 USD</td>
+                                    <td className={cx('price')}>{discount}</td>
                                 </tr>
                                 <tr className={cx('total')}>
                                     <td>Total</td>
-                                    <td className={cx('price')}>546.41 USD</td>
+                                    <td className={cx('price')}>{price - discount}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -217,13 +242,15 @@ function Checkout() {
                             <div>
                                 {user ? (
                                     sdkReady ? (
-                                        <PayPalButton
+                                        <PayPalScriptProvider options={initialOptions}>
+                                        <div>
+                                          <PayPalButtons
                                             createOrder={createOrder}
                                             onApprove={onApprove}
-                                            onError={(error) => {
-                                                alert('Error', error);
-                                            }}
-                                        />
+                                            onError={onError}
+                                          />
+                                        </div>
+                                      </PayPalScriptProvider>
                                     ) : (
                                         <div>Loading PayPal...</div>
                                     )
