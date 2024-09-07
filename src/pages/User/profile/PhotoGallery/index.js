@@ -151,7 +151,7 @@ const PhotoGallery = () => {
 
             console.log('Sending form data to server...');
             // Gửi dữ liệu sản phẩm mới tới server
-            const response = await axios.post('http://localhost:5000/product/create-product', formData, {
+            const response = await axiosJWT.post('http://localhost:5000/product/create-product', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': token,
@@ -198,7 +198,7 @@ const PhotoGallery = () => {
         const { type, ...productWithoutType } = selectedProduct;
 
         try {
-            const response = await axios.put(
+            const response = await axiosJWT.put(
                 `${process.env.REACT_APP_URL_BE}/product/update-product/${selectedProduct._id}`, 
                 productWithoutType, 
                 {
@@ -225,6 +225,8 @@ const PhotoGallery = () => {
             const getAllProductsUser = async () => {
                 try {
                     console.log('Getting all products from server...');
+                    console.log('token', token);
+                    
                     const response = await axiosJWT.get(`http://localhost:5000/product/get-all-products/${userid}`, {
                         headers: {
                             'token': token,
@@ -234,8 +236,6 @@ const PhotoGallery = () => {
                         // Cập nhật danh sách sản phẩm
                         setProducts(response.data.products);
                         // toast.success('Lấy dữ liệu sản phẩm thành công!');
-                                                
-
                     } else {
                         toast.error('Không có sản phẩm. Vui lòng thử lại.');
                     }
@@ -304,7 +304,7 @@ const PhotoGallery = () => {
                         </button>
                         <div className={cx('product-detail-content--preview')} style={{justifyContent:'center'}}>
                             <div className={cx('product-detail-image')}>
-                                <MediaPreview product={previewImage}/>
+                                <MediaPreview product={previewImage} ispagephoto={ispagephoto}/>
                             </div>
                         </div>
                     </div>

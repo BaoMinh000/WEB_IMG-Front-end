@@ -7,6 +7,7 @@ import MenuUser from "../../../Popper/MenuUser";
 import MenuMobi from "../../../MenuMobile";
 import { useSelector, useDispatch } from "react-redux";
 import { loginSuccess, loginFailure } from "../../../../Redux/Slice/authSlice";
+import {refreshAccessToken} from "../../../../Redux/ApiRequest";
 //libary
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
@@ -21,7 +22,7 @@ const decodeToken = (token) => JSON.parse(atob(token.split('.')[1]));
 const getImageUrl = (path) => {
     const normalizedPath = path?.replace(/\\/g, "/"); // Chuyển đổi gạch chéo ngược thành gạch chéo
     return `http://localhost:5000${normalizedPath}`; // Thay đổi URL này theo đường dẫn của server
-  };
+};
 
 function Header() {
     const [isOpen, setisOpen] = useState(false);
@@ -29,6 +30,7 @@ function Header() {
     const [ShowUpLoad, setShowUpLoad] = useState(false);
     const [ShowMenuUser, setShowMenuUser] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [token, setToken] = useState(localStorage.getItem('token'));
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -61,29 +63,61 @@ function Header() {
 
     //duy trì đăng nhập khi reload
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            try {
-                const user = JSON.parse(storedUser);
-                const decodedToken = decodeToken(user.access_token);
+        const checkUserSession = async () => {
+            const storedUser = localStorage.getItem('user');
 
-                if (decodedToken && decodedToken.exp * 1000 > Date.now()) {
-                    dispatch(loginSuccess(user));
-                } else {
-                    // Token expired or invalid
+            if (storedUser && token) {
+                try {
+                    const user = JSON.parse(storedUser);
+                    const decodedToken = decodeToken(token);
+
+                    if (decodedToken && decodedToken.exp * 1000 > Date.now()) {
+                        // Token còn hiệu lực, thực hiện đăng nhập thành công
+                        dispatch(loginSuccess(user));
+                    } else {
+                        // Token hết hạn hoặc không hợp lệ, thực hiện làm mới token
+                        try {
+                            const newAccessToken = await refreshAccessToken();
+
+                            if (newAccessToken) {
+                                // Lưu token mới vào localStorage
+                                localStorage.setItem('token', newAccessToken);
+                                setToken(newAccessToken); // Cập nhật state token
+
+                                // Cập nhật trạng thái người dùng với token mới
+                                dispatch(loginSuccess({
+                                    ...user,
+                                    access_token: newAccessToken,
+                                }));
+                            } else {
+                                // Nếu không thể làm mới token, thực hiện đăng xuất
+                                handleLogout();
+                                // navigate('/login'); // Điều hướng đến trang đăng nhập
+                            }
+                        } catch (refreshError) {
+                            console.error('Error refreshing access token:', refreshError);
+                            // Nếu không thể làm mới token, thực hiện đăng xuất
+                            handleLogout();
+                            // navigate('/login'); // Điều hướng đến trang đăng nhập
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error parsing user from local storage:', error);
                     handleLogout();
+                    // navigate('/login'); // Điều hướng đến trang đăng nhập
                 }
-            } catch (error) {
-                console.error("Error restoring user from local storage:", error);
-                handleLogout();
+            } else {
+                // Nếu không có user hoặc token trong localStorage, điều hướng đến trang đăng nhập
+                // navigate('/login');
             }
-        }
-    }, [dispatch, navigate]);
+        };
+
+        checkUserSession();
+    }, [dispatch, navigate, token]);
 
     const handleLogout = () => {
         // Clear user and token data
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
+        localStorage.clear();
         Cookies.remove("refreshToken");
 
         // Navigate to home or login page
@@ -92,10 +126,6 @@ function Header() {
         // Dispatch login failure action
         dispatch(loginFailure());
     };
-    const getImageUrl = (path) => {
-        const normalizedPath = path?.replace(/\\/g, "/"); // Chuyển đổi gạch chéo ngược thành gạch chéo
-        return `http://localhost:5000${normalizedPath}`; // Thay đổi URL này theo đường dẫn của server
-      };
     return (
         <header className={cx("header")}>
             <div className="container" style={{padding:'0'}}>

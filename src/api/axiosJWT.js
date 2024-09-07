@@ -10,7 +10,7 @@ axiosJWT.interceptors.request.use(
     // Thêm access_token vào headers của mỗi yêu cầu
     const token = localStorage.getItem('token'); // Hoặc từ Redux store
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Authorization'] = token;
   }  
     return config;
   },
@@ -23,18 +23,25 @@ axiosJWT.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    console.log('error', error.response);
+    
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if ((error.response?.status === 401 || error.response?.status === 403) && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
+        console.log('Refreshing token...');
+        
         // Yêu cầu refresh token để lấy access token mới
         const newAccessToken = await refreshAccessToken();
-
+        console.log('newAccessToken', newAccessToken);
+        
         if (newAccessToken) {
           // Lưu token mới vào headers và lưu vào localStorage
-          localStorage.setItem('access_token', newAccessToken);
-          originalRequest.headers['token'] = `Bearer ${newAccessToken}`;
+          console.log('Đã lưu token mới vào localStorage', newAccessToken);
+          
+          localStorage.setItem('token', newAccessToken);
+          // originalRequest.headers['token'] = newAccessToken;
 
           // Thực hiện lại yêu cầu ban đầu với access_token mới
           return axiosJWT(originalRequest);
@@ -42,7 +49,7 @@ axiosJWT.interceptors.response.use(
       } catch (err) {
         console.error("Failed to refresh token", err);
         // Có thể điều hướng người dùng đến trang đăng nhập nếu làm mới token thất bại
-        window.location.href = "/login";
+        // window.location.href = "/login";
       }
     }
 

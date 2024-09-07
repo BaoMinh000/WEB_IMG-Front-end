@@ -135,8 +135,8 @@ function Checkout() {
             const result = await response.json();
             console.log('Order updated successfully:', result);
             
-            // Thực hiện các hành động bổ sung nếu cần
-
+            //di chuyển tới trang thanh toán thành công
+            navigate('/success');
             // await updateUserProducts(user, product);
 
         } catch (error) {

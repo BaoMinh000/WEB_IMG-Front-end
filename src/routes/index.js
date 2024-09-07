@@ -7,7 +7,7 @@ import ProductDetail from "../pages/ProductDetail/index";
 import PageAdmin from "../pages/Admin/PageAdmin";
 import SearchResultsPage from "../pages/SearchResultsPage";
 import Checkout from '../pages/CheckoutPage'
-
+import SuccessPage from "../pages/SuccesPage";
 const publicRoute = [
     { path: "/", Component: Home , AdminOnly: false},
     { path: '/product-detail', Component: ProductDetail , AdminOnly: false},
@@ -17,8 +17,9 @@ const publicRoute = [
     { path: "/search-results", Component: SearchResultsPage , AdminOnly: false},
     { path: "/checkout", Component: Checkout , AdminOnly: false},
     { path: "/payPlans", Component: Paypage , AdminOnly: false},
-];
+    { path: "/success", Component: SuccessPage , AdminOnly: false},
 
+];
 const privateRoute = [
     { path: "/system/admin", Component: PageAdmin, AdminOnly: true },
     { path: "/user/profile", Component: UserProfilePage, AdminOnly: false },

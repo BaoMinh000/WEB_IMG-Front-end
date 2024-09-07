@@ -24,7 +24,6 @@ const CategoryList = ({ onSelectCategory }) => {
   const avatar = user?.data?.avatar;
   const userId = user?.data?._id;
   const token = localStorage.getItem('token');
-  console.log(token);
   
   const handleSelectCategory = (category) => {
     onSelectCategory(category);

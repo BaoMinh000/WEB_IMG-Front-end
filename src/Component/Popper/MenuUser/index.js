@@ -4,12 +4,17 @@ import Cookies from "js-cookie";
 import classNames from "classnames/bind";
 import styles from "./MenuUser.module.scss";
 import { Link } from "react-router-dom";
+import { Header } from "antd/es/layout/layout";
 
 const cx = classNames.bind(styles);
 
 const URL_BE = process.env.REACT_APP_URL_BE;
 
 function MenuUser({ isShowMenuUser, onClose }) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?.user?._id;
+    console.log("userId", userId);
+    
     const handleLogout = async (event) => {
         event.preventDefault();
         try {
@@ -20,19 +25,18 @@ function MenuUser({ isShowMenuUser, onClose }) {
             }
     
             const response = await axios.post(
-                `${URL_BE}/auth/logout`,
-                {},
+                `${URL_BE}/auth/logout`,{ userId },
                 {
                     headers: {
-                        'token': `Bearer ${token}`
-                    }
+                        'Content-Type': 'application/json',
+                    },
                 }
             );
             
             if (response.status === 200) {
                 // Clear localStorage
-                localStorage.removeItem("user");
-                localStorage.removeItem('token');
+                localStorage.clear();
+
                 // Clear cookies
                 Cookies.remove("refreshToken");
                 // Redirect to home page

@@ -1,4 +1,6 @@
 import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 import {
     loginFailure,loginStart,loginSuccess,
@@ -25,14 +27,14 @@ import {
     getPlanIdSuccess,
     getPlanIdFailure,
 } from "../Slice/PlanSlice";
-import { toast } from "react-toastify";
+import axiosJWT from "../../api/axiosJWT";
 
 const URL_BE = process.env.REACT_APP_URL_BE;
 
 export const loginUser = (user, setisOpen) => async (dispatch, navigate) => {
     dispatch(loginStart());
     try {
-        const res = await axios.post(`${URL_BE}/auth/login`, user);
+        const res = await axiosJWT.post(`${URL_BE}/auth/login`, user);
         if (res.status === 200) {
             // Xử lý dữ liệu phản hồi ở đây nếu cần
             dispatch(loginSuccess(res.data)); // Assuming res.data contains user data
@@ -44,8 +46,9 @@ export const loginUser = (user, setisOpen) => async (dispatch, navigate) => {
 
             toast.success("Login successful!");
             setisOpen(false);
+            // Điều hướng người dùng đến trang chính
             navigate("/");
-            //reload lại trang
+            // //reload lại trang
             window.location.reload();
         } else {
             // Xử lý trường hợp phản hồi không thành công (vd: mã trạng thái không phải 200)
@@ -63,7 +66,7 @@ export const loginUser = (user, setisOpen) => async (dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerStart());
     try {
-        const res = await axios.post(`${URL_BE}/auth/register`,user);
+        const res = await axiosJWT.post(`${URL_BE}/auth/register`,user);
         if (res.status === 200) {
             // Xử lý dữ liệu phản hồi ở đây nếu cần
             dispatch(registerSuccess());
@@ -84,28 +87,22 @@ export const registerUser = async (user, dispatch, navigate) => {
 
 export const refreshAccessToken = async () => {
     try {
+        const userId = JSON.parse(localStorage.getItem("user"))?.user?._id;
+        console.log("userId", userId);
+        
         // Gửi yêu cầu refresh token đến server
-        const response = await axios.post(`${process.env.REACT_APP_URL_BE}/auth/refresh-token`, null, {
-            withCredentials: true, // Đảm bảo rằng cookie được gửi cùng với yêu cầu
+        const response = await axiosJWT.post(`${process.env.REACT_APP_URL_BE}/auth/refesh-token`, {
+            userId: userId,
         });
-
         if (response.status === 200) {
-            const { access_token } = response.data;
-
-            // Lưu access token mới vào localStorage
-            localStorage.setItem("access_token", access_token);
-
-            return access_token;
+            console.log("Refresh token successful", response.data.access_token);
+            return response.data.access_token;
         } else {
             throw new Error('Failed to refresh token');
         }
     } catch (error) {
-        console.error("Error refreshing access token:", error);
-
         // Xóa các thông tin liên quan đến phiên đăng nhập
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("user");
-
+        localStorage.clear();
         // Bạn có thể điều hướng người dùng đến trang đăng nhập hoặc hiển thị thông báo lỗi
         window.location.href = "/"; // Điều hướng người dùng đến trang đăng nhập
         return null;
