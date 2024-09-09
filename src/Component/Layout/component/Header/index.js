@@ -65,7 +65,6 @@ function Header() {
     useEffect(() => {
         const checkUserSession = async () => {
             const storedUser = localStorage.getItem('user');
-
             if (storedUser && token) {
                 try {
                     const user = JSON.parse(storedUser);
@@ -106,12 +105,8 @@ function Header() {
                     handleLogout();
                     // navigate('/login'); // Điều hướng đến trang đăng nhập
                 }
-            } else {
-                // Nếu không có user hoặc token trong localStorage, điều hướng đến trang đăng nhập
-                // navigate('/login');
             }
         };
-
         checkUserSession();
     }, [dispatch, navigate, token]);
 

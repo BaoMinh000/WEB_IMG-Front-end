@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
+import { toast, Bounce  } from "react-toastify";
 
 import {
     loginFailure,loginStart,loginSuccess,
@@ -35,31 +35,60 @@ export const loginUser = (user, setisOpen) => async (dispatch, navigate) => {
     dispatch(loginStart());
     try {
         const res = await axiosJWT.post(`${URL_BE}/auth/login`, user);
+        console.log("res", res);
+
         if (res.status === 200) {
-            // Xử lý dữ liệu phản hồi ở đây nếu cần
-            dispatch(loginSuccess(res.data)); // Assuming res.data contains user data
-            // console.log("res.data", res.data);
+            dispatch(loginSuccess(res.data));
             // Lưu token vào localStorage
             localStorage.setItem("token", res.data.access_token);
-            //lưu thông tin user vào localStorage
+            // Lưu thông tin người dùng vào localStorage
             localStorage.setItem("user", JSON.stringify(res.data));
 
-            toast.success("Login successful!");
+            toast.success(res.data.message, {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+                });
             setisOpen(false);
-            // Điều hướng người dùng đến trang chính
-            navigate("/");
-            // //reload lại trang
-            window.location.reload();
         } else {
-            // Xử lý trường hợp phản hồi không thành công (vd: mã trạng thái không phải 200)
-            dispatch(loginFailure());
-            toast.error("Login failed!");
+            toast.error(res.data.message);
         }
     } catch (err) {
-        // Xử lý lỗi (vd: log lỗi hoặc hiển thị thông báo lỗi cho người dùng)
         console.error("Login failed:", err);
-        dispatch(loginFailure());
-        toast.error("Login failed!");
+        if (err.response) {
+            console.error("Response error:", err.response.data);
+            toast.error(`Login failed! ${err.response.data.message}`, {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                }
+            );
+        } else {
+            console.error("Unknown error:", err);
+            toast.error("Unknown error occurred during login!",{
+                position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+            });
+        }
     }
 };
 

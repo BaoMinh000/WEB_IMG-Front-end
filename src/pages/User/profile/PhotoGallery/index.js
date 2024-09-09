@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import style from './PhotoGallery.module.scss';
 import classNames from 'classnames/bind';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast, Bounce } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxOpen, faSpaceShuttle } from '@fortawesome/free-solid-svg-icons';
 import axiosJWT from '../../../../api/axiosJWT';
@@ -19,11 +19,12 @@ const PhotoGallery = () => {
     const [showAddProduct, setShowAddProduct] = useState(false);
     const [previewImage, setPreviewImage] = useState(null);
     const [newCategory, setNewCategory] = useState('');
-    const [newProduct, setNewProduct] = useState({ name: '', type: '', description: '',price:'' ,path: '', image: null, category: categoriesimg[0]});
+    const [newProduct, setNewProduct] = useState({ name: '', type: '', description: '',price:'' ,path: '', image: null, isPublished: true, category: categoriesimg[0]});
     const token = localStorage.getItem('token');
     const [userid, setUserid] = useState('');
     const accessToken = localStorage.getItem('token');
     const ispagephoto = true;
+
     const dispatch = useDispatch();
     useEffect(() => {
         // Lấy dữ liệu người dùng từ localStorage
@@ -36,7 +37,7 @@ const PhotoGallery = () => {
         } else {
             console.log('No user data found in localStorage.');
         }
-    }, []); // Chỉ chạy một lần khi component mount
+    }, [token]); // Chỉ chạy một lần khi component mount
 
     //khóa thanh scroll
     useEffect(() => {
@@ -134,8 +135,48 @@ const PhotoGallery = () => {
     const handleAddProductSubmit = async () => {
         try {
             // // Kiểm tra xem tất cả các trường bắt buộc đã được điền chưa
-            if (!newProduct.name || !newProduct.type || !newProduct.description || !newProduct.image) {
-                toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
+            if (!newProduct.name 
+                || !newProduct.type 
+                || !newProduct.description 
+                || !newProduct.image 
+                || !newProduct.category 
+                || !newProduct.price
+                || !newProduct.isPublished
+            ) {
+                toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.',{
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+                if(!newProduct.image){
+                    toast.error('Vui lòng chọn hình ảnh sản phẩm.');
+                }else{
+                    if(!newProduct.category){
+                        toast.error('Vui lòng chọn danh mục sản phẩm.');
+                    }
+                    if(!newProduct.isPublished){
+                        toast.error('Vui lòng chọn trạng thái công khai sản phẩm.');
+                    }
+                    if(!newProduct.price){
+                        toast.error('Vui lòng nhập giá sản phẩm.');
+                    }
+                    if(!newProduct.description){
+                        toast.error('Vui lòng nhập mô tả sản phẩm.');
+                    }
+                    if(!newProduct.type){
+                        toast.error('Vui lòng nhập loại sản phẩm.');
+                    }
+                    if(!newProduct.name){
+                        toast.error('Vui lòng nhập tên sản phẩm.');
+                    }
+                }
+
                 return;
             }
             
@@ -147,7 +188,7 @@ const PhotoGallery = () => {
             formData.append('image', newProduct.image); // Thêm file hình ảnh vào FormData
             formData.append('category', newProduct.category);
             formData.append('price', newProduct.price);
-
+            formData.append('isPublished', newProduct.isPublished);
 
             console.log('Sending form data to server...');
             // Gửi dữ liệu sản phẩm mới tới server
@@ -170,6 +211,7 @@ const PhotoGallery = () => {
                         type: addedProduct.type,
                         description: addedProduct.description,
                         path: addedProduct.path,
+                        isPublished: addedProduct.isPublished,
                     }
                 ]);
 
@@ -395,7 +437,18 @@ const PhotoGallery = () => {
                                         className={cx('product-detail-description')}
                                     />
                                 </label>
-                                
+                                <label className='col-lg-6 col-md-6 col-sm-12'>
+                                    Công khai sản phẩm:
+                                    <select
+                                        name="isPublished"
+                                        value={selectedProduct.isPublished}
+                                        onChange={handleInputEditChange}
+                                        className={cx('product-detail-publish-status')}
+                                    >
+                                        <option value={true}>Công khai</option>
+                                        <option value={false}>Riêng tư</option>
+                                    </select>
+                                </label>
                             </div>
                         </div>
 
@@ -473,6 +526,18 @@ const PhotoGallery = () => {
                                             <option value="none">None</option>
                                         )}
                                         <option value="addNewCategory">+ Thêm danh mục mới</option> {/* Option để thêm danh mục mới */}
+                                    </select>
+                                </label>
+                                <label className='col-lg-6 col-md-6 col-sm-12'>
+                                    Công khai sản phẩm:
+                                    <select
+                                        name="isPublished"
+                                        value={newProduct.isPublished}
+                                        onChange={handleInputChange}
+                                        className={cx('product-detail-publish-status')}
+                                    >
+                                        <option value={true}>Công khai</option>
+                                        <option value={false}>Riêng tư</option>
                                     </select>
                                 </label>
                             </div>

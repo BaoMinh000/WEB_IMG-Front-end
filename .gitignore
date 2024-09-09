@@ -1,23 +1,41 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Node modules
+node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
+# Env files (chứa thông tin nhạy cảm)
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Build thư mục (sinh ra khi build dự án)
+build/
+
+# Các tệp cache
+.cache/
+.eslintcache
+
+# Coverage thư mục (nếu dùng testing tools như Jest)
+coverage/
+
+# Tệp lock (có thể bỏ qua nếu không cần đồng bộ phụ thuộc)
+yarn.lock
+package-lock.json
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files (VSCode, IntelliJ, etc.)
+.vscode/
+.idea/
+
+# Tệp cấu hình hoặc tạm thời
+*.log
+*.tmp
+*.swp
