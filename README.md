@@ -8,7 +8,11 @@ Trang chủ của dự án với bố cục rõ ràng và thanh điều hướng
 
 ## 2. Sign Up / Log In
 Trang đăng ký và đăng nhập, giúp người dùng tạo tài khoản hoặc truy cập tài khoản đã có.
-![Sign Up / Log In](https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/385f60eddea0245f9d8fd785677ff9984a00035c/IMG%20demo/Home.jpeg?raw=true) <!-- Thay URL hình nếu có hình cho trang này -->
+
+<div style="display: flex; justify-content: space-around;">
+  <img src="https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/5554eef214ced3a78f4afc02d23eaab336f9e1cb/IMG%20demo/LOGIN.png" alt="Sign Up" style="width: 45%;">
+  <img src="https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/5554eef214ced3a78f4afc02d23eaab336f9e1cb/IMG%20demo/REGRIS.png" alt="Log In" style="width: 45%;">
+</div>
 
 ---
 
@@ -26,7 +30,7 @@ Trang chi tiết sản phẩm hiển thị thông tin sản phẩm đầy đủ,
 
 ## 5. Checkout
 Trang thanh toán với các bước đơn giản để hoàn tất đơn hàng, bao gồm lựa chọn phương thức thanh toán.
-![Checkout](https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/385f60eddea0245f9d8fd785677ff9984a00035c/IMG%20demo/Home.jpeg?raw=true) <!-- Thay URL hình nếu có hình cho trang này -->
+ <!-- Thay URL hình nếu có hình cho trang này -->
 
 ---
 
@@ -38,7 +42,7 @@ Trang quản lý tài khoản người dùng, cho phép người dùng xem và c
 
 ## 7. Download/Upload and Permissions
 Chức năng tải lên/tải xuống tệp tin và quản lý quyền truy cập cho người dùng.
-![Download/Upload](https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/385f60eddea0245f9d8fd785677ff9984a00035c/IMG%20demo/Home.jpeg?raw=true) <!-- Thay URL hình nếu có hình cho trang này -->
+ <!-- Thay URL hình nếu có hình cho trang này -->
 
 ---
 
@@ -49,8 +53,7 @@ Chức năng chuyển đổi dữ liệu từ tệp CSV thành biểu đồ tr�
 ---
 
 ## 9. Download Chart Image
-Chức năng tải xuống hình ảnh biểu đồ để sử dụng ngoại tuyến.
-![Download Chart Image](https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/385f60eddea0245f9d8fd785677ff9984a00035c/IMG%20demo/Home.jpeg?raw=true) <!-- Thay URL hình nếu có hình cho trang này -->
+Chức năng tải xuống hình ảnh biểu đồ để sử dụng ngoại tuyến.<!-- Thay URL hình nếu có hình cho trang này -->
 
 ---
 
