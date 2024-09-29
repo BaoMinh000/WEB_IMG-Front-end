@@ -56,7 +56,3 @@ Chức năng chuyển đổi dữ liệu từ tệp CSV thành biểu đồ tr�
 Chức năng tải xuống hình ảnh biểu đồ để sử dụng ngoại tuyến.<!-- Thay URL hình nếu có hình cho trang này -->
 
 ---
-
-## 10. Tab Convert
-Trang chuyển đổi đơn vị, giao diện hiện đại và các chức năng tiện ích.
-![Tab Convert](https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/385f60eddea0245f9d8fd785677ff9984a00035c/IMG%20demo/CONVERTPAGE.jpeg?raw=true)
