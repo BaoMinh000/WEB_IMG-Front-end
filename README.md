@@ -48,7 +48,7 @@ Chức năng tải lên/tải xuống tệp tin và quản lý quyền truy cậ
 
 ## 8. Convert Data From CSV File to Chart
 Chức năng chuyển đổi dữ liệu từ tệp CSV thành biểu đồ trực quan.
-![Convert Data](https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/385f60eddea0245f9d8fd785677ff9984a00035c/IMG%20demo/CONVERTPAGE.jpeg?raw=true)
+![Convert Data](https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/134735c685f64b6cb916d4be82314f3d82cb7477/IMG%20demo/CSVPAGE.jpeg?raw=true)
 
 ---
 
