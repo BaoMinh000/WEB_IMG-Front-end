@@ -44,6 +44,7 @@ Trang quản lý tài khoản người dùng, cho phép người dùng xem và c
 Chức năng tải lên/tải xuống tệp tin và quản lý quyền truy cập cho người dùng.
  <!-- Thay URL hình nếu có hình cho trang này -->
 
+![Convert Data](https://github.com/BaoMinh000/WEB_IMG-Front-end/blob/c931be80d6339491a6c6e5aec32a10f50c64c468/IMG%20demo/system-admin.png?raw=true)
 ---
 
 ## 8. Convert Data From CSV File to Chart
