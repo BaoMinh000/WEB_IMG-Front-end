@@ -57,3 +57,5 @@ Chức năng chuyển đổi dữ liệu từ tệp CSV thành biểu đồ tr�
 Chức năng tải xuống hình ảnh biểu đồ để sử dụng ngoại tuyến.<!-- Thay URL hình nếu có hình cho trang này -->
 
 ---
+CHÚ Ý: THƯ MỤC IMMG DEMO KHÔNG CẦN THIẾT CHO DỰ ÁN TRÊN
+
